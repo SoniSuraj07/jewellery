@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Aurora Jewels – Jewellery E‑Shop</title>
+    <meta name="viewport" content="width=375, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description"
+        content="Aurora Jewels: Contemporary, secure, and stylish jewellery e-commerce demo, inspired by CaratLane and Palmonas.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #D1AF6E;
+            /* Gold */
+            --bg: #f7f5fa;
+            --accent: #635C7E;
+            /* Muted purple */
+            --safe: #31C6A8;
+            /* For badges */
+            --danger: #DF3264;
+            --text: #222;
+            --font: 'Montserrat', Arial, sans-serif;
+            --footer-bg: #ece7f3;
+        }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            margin: 0;
+            color: var(--text);
+            min-height: 100vh;
+            letter-spacing: 0.01em;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        h1,
+        h2,
+        h3 {
+            margin: 0;
+            font-weight: 700;
+        }
+
+        /* Sticky Header */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: #fff;
+            box-shadow: 0 2px 4px rgba(99, 92, 126, 0.04);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 56px;
+            padding: 0 18px;
+        }
+
+        .header .logo {
+            font-size: 1.45em;
+            color: var(--primary);
+            font-weight: bold;
+            letter-spacing: 0.03em;
+        }
+
+        .header .menu-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .icon-btn {
+            background: none;
+            border: none;
+            outline: none;
+            padding: 0;
+            cursor: pointer;
+            border-radius: 50%;
+            min-width: 36px;
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.18s;
+        }
+
+        .icon-btn:active {
+            background: #f5efd9;
+        }
+
+        .icon {
+            font-size: 1.4em;
+            color: var(--accent);
+        }
+
+        /* Hero carousel/banner */
+        .hero-carousel {
+            width: 100%;
+            height: 195px;
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 16px;
+        }
+
+        .carousel-img {
+            width: 100%;
+            height: 195px;
+            object-fit: cover;
+            opacity: 0.99;
+            transition: opacity 0.5s;
+        }
+
+        .carousel-dots {
+            position: absolute;
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(99, 92, 126, 0.25);
+            border: 2px solid transparent;
+            transition: border 0.3s;
+        }
+
+        .dot.active {
+            border: 2px solid var(--primary);
+            background: var(--primary);
+        }
+
+        /* Category Cards */
+        .categories {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            padding: 0 10px;
+            margin-bottom: 25px;
+        }
+
+        .category-card {
+            flex: 0 0 120px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(99, 92, 126, 0.05);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 6px;
+            min-height: 110px;
+            font-size: 1em;
+            cursor: pointer;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: border 0.15s;
+            user-select: none;
+        }
+
+        .category-card:hover,
+        .category-card:active {
+            border: 2px solid var(--primary);
+        }
+
+        /* Featured Products */
+        .featured-section {
+            margin: 14px 0;
+            padding: 0 13px;
+        }
+
+        .featured-products {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .product-card {
+            background: #fff;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(99, 92, 126, 0.04);
+            width: 162px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 14px;
+            transition: box-shadow 0.15s;
+            border: 2px solid transparent;
+        }
+
+        .product-card:active,
+        .product-card:hover {
+            border: 2px solid var(--primary);
+            box-shadow: 0 5px 24px rgba(209, 175, 110, 0.07);
+        }
+
+        .product-img {
+            width: 100%;
+            height: 110px;
+            object-fit: cover;
+            background: #f5efd9;
+        }
+
+        .product-name {
+            font-size: 1.07em;
+            margin: 10px 0 3px;
+            color: var(--accent);
+            text-align: center;
+        }
+
+        .product-price {
+            font-size: 1.04em;
+            color: var(--primary);
+            font-weight: bold;
+            margin-bottom: 7px;
+        }
+
+        .add-cart-btn {
+            display: inline-block;
+            padding: 7px 18px;
+            background: var(--primary);
+            color: #fff;
+            font-weight: 700;
+            font-size: 1em;
+            border-radius: 20px;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 8px;
+            transition: background 0.15s;
+            box-shadow: 0 2px 8px rgba(209, 175, 110, 0.07);
+        }
+
+        .add-cart-btn:active {
+            background: var(--accent);
+        }
+
+        .badge-strip {
+            background: #fff;
+            display: flex;
+            justify-content: center;
+            gap: 23px;
+            align-items: center;
+            height: 50px;
+            border-top: 1px solid #e8e2cb;
+            border-bottom: 1px solid #e8e2cb;
+        }
+
+        .trust-badge {
+            display: flex;
+            align-items: center;
+            font-size: 1em;
+            color: var(--safe);
+            font-weight: 700;
+            gap: 7px;
+        }
+
+        .trust-badge img {
+            width: 24px;
+            height: 24px;
+            vertical-align: middle;
+            filter: brightness(1.3);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--footer-bg);
+            padding: 22px 13px 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.99em;
+            color: var(--accent);
+            border-top: 2px solid var(--primary);
+            margin-top: 36px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 18px;
+            margin-bottom: 7px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .footer-links a {
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 1em;
+            transition: color 0.14s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .brand-story {
+            margin: 6px 0 0;
+            font-size: 0.99em;
+            text-align: center;
+            color: var(--text);
+        }
+
+        .footer-logo {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--primary);
+            letter-spacing: 0.04em;
+            margin-bottom: 4px;
+        }
+
+        /* Bottom Navigation (Mobile Sticky) */
+        .nav-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100vw;
+            background: #fff;
+            height: 57px;
+            box-shadow: 0 -2px 6px #eadfc2a6;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 1200;
+        }
+
+        .nav-bottom .icon-btn {
+            min-width: 45px;
+            min-height: 45px;
+        }
+
+        @media(min-width:768px) {
+            body {
+                font-size: 1.08em;
+            }
+
+            .categories {
+                gap: 25px;
+            }
+
+            .featured-products {
+                gap: 24px;
+            }
+
+            .footer {
+                font-size: 1.03em;
+            }
+        }
+
+        @media(min-width:1280px) {
+            .header {
+                height: 67px;
+                padding: 0 32px;
+            }
+
+            .footer {
+                padding: 38px 26px 32px;
+            }
+
+            .categories {
+                gap: 38px;
+            }
+        }
+
+        /* Loader Animation */
+        .loader {
+            width: 47px;
+            height: 47px;
+            border-radius: 50%;
+            border: 3.5px solid #f7f5fa;
+            border-top: 3.8px solid var(--primary);
+            animation: spin 0.8s linear infinite;
+            margin: 25px auto;
+            display: none;
+        }
+
+        @keyframes spin {
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Accessibility */
+        .sr-only {
+            position: absolute;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+
+        .product-img,
+        .category-img,
+        .carousel-img {
+            background: #f7f7fd;
+        }
+
+        /* Demo Badge */
+        .demo-badge {
+            background: var(--danger);
+            color: #fff;
+            border-radius: 12px;
+            font-size: 0.95em;
+            padding: 2px 14px;
+            font-weight: 700;
+            letter-spacing: 0.03em;
+            margin: 8px auto;
+            text-align: center;
+            width: max-content;
+        }
+
+        /* Skeleton loader when image loading */
+        .skeleton {
+            background: linear-gradient(90deg, #ece7f3 30%, #dfd3ec 50%, #ece7f3 70%);
+            background-size: 300% 100%;
+            animation: skeleton 1.2s infinite linear;
+            height: 100%;
+            width: 100%;
+        }
+
+        @keyframes skeleton {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: -200% 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Sticky Header -->
+    <header class="header" aria-label="Main Navigation Header">
+        <span class="logo" aria-label="Aurora Jewels Logo">Aurora Jewels</span>
+        <nav class="menu-icons" aria-label="Header Navigation">
+            <button class="icon-btn" aria-label="Search"><span class="icon">&#128269;</span></button>
+            <button class="icon-btn" aria-label="View Cart" onclick="showCart()"><span
+                    class="icon">&#128722;</span><span id="cart-count" aria-label="Items in cart"
+                    style="font-size: .87em;background: var(--danger);color: #fff;border-radius: 50%;padding: 0 7px;position:absolute;margin-left:20px;margin-top:-12px;display:none;"></span></button>
+            <button class="icon-btn" aria-label="Menu" onclick="showMenu()"><span class="icon">&#9776;</span></button>
+        </nav>
+    </header>
+
+    <!-- Hero Carousel -->
+    <section class="hero-carousel" aria-label="Aurora Jewels Hero Carousel">
+        <img src="https://placehold.co/375x195?text=Radiant+Bridal+Collection" alt="Radiant bridal collection banner"
+            class="carousel-img" id="carousel-image" loading="lazy" />
+        <div class="carousel-dots">
+            <span class="dot active"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section aria-label="Jewellery Categories">
+        <div class="categories" role="list">
+            <div class="category-card" tabindex="0">
+                <img src="https://placehold.co/55x55/or/fff?text=R" alt="Rings" aria-label="Rings"
+                    style="border-radius: 50%;margin-bottom:6px;">
+                Rings
+            </div>
+            <div class="category-card">
+                <img src="https://placehold.co/55x55/bb/fff?text=N" alt="Necklaces" aria-label="Necklaces"
+                    style="border-radius: 50%;margin-bottom:6px;">
+                Necklaces
+            </div>
+            <div class="category-card">
+                <img src="https://placehold.co/55x55/85f/fff?text=E" alt="Earrings" aria-label="Earrings"
+                    style="border-radius: 50%;margin-bottom:6px;">
+                Earrings
+            </div>
+            <div class="category-card">
+                <img src="https://placehold.co/55x55/c99/fff?text=B" alt="Bridal" aria-label="Bridal"
+                    style="border-radius: 50%;margin-bottom:6px;">
+                Bridal
+            </div>
+            <div class="category-card">
+                <img src="https://placehold.co/55x55/53a/fff?text=DF" alt="Demi-Fine" aria-label="Demi-Fine"
+                    style="border-radius: 50%;margin-bottom:6px;">
+                Demi-Fine
+            </div>
+            <div class="category-card">
+                <img src="https://placehold.co/55x55/9ef/fff?text=G" alt="Gifting" aria-label="Gifting"
+                    style="border-radius: 50%;margin-bottom:6px;">
+                Gifting
+            </div>
+            <div class="category-card">
+                <img src="https://placehold.co/55x55/444/fff?text=M" alt="Men's" aria-label="Men's"
+                    style="border-radius: 50%;margin-bottom:6px;">
+                Men's
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Products -->
+    <section class="featured-section" aria-label="Featured Collection">
+        <h2 style="color:var(--accent);margin-bottom:9px; margin-left:5px;">Featured Collection</h2>
+        <div class="featured-products">
+            <div class="product-card" role="listitem" tabindex="0" aria-label="Diamond Radiance Ring details">
+                <img src="https://placehold.co/162x110/fffcf4/222?text=Diamond+Radiance+Ring"
+                    alt="Diamond Radiance Ring" class="product-img" loading="lazy" />
+                <span class="product-name">Diamond Radiance Ring</span>
+                <span class="product-price">₹34,500</span>
+                <button class="add-cart-btn" onclick="addToCart('Diamond Radiance Ring',34500)">Add to Cart</button>
+            </div>
+            <div class="product-card" tabindex="0" aria-label="Men's Platinum Chain details">
+                <img src="https://placehold.co/162x110/f6f5fb/222?text=Men%27s+Platinum+Chain"
+                    alt="Men's Platinum Chain" class="product-img" loading="lazy" />
+                <span class="product-name">Men's Platinum Chain</span>
+                <span class="product-price">₹15,250</span>
+                <button class="add-cart-btn" onclick="addToCart('Men\'s Platinum Chain',15250)">Add to Cart</button>
+            </div>
+            <div class="product-card" tabindex="0" aria-label="Bridal Solitaire Set details">
+                <img src="https://placehold.co/162x110/fff/222?text=Bridal+Solitaire+Set" alt="Bridal Solitaire Set"
+                    class="product-img" loading="lazy" />
+                <span class="product-name">Bridal Solitaire Set</span>
+                <span class="product-price">₹79,900</span>
+                <button class="add-cart-btn" onclick="addToCart('Bridal Solitaire Set',79900)">Add to Cart</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trust Badges -->
+    <div class="badge-strip" aria-label="Trust Badges">
+        <span class="trust-badge"><img src="https://placehold.co/24x24/31C6A8/fff?text=✔" alt="Certified Jewellery">
+            Certified Jewellery</span>
+        <span class="trust-badge"><img src="https://placehold.co/24x24/D1AF6E/fff?text=🔒" alt="Secure Checkout"> Secure
+            Checkout</span>
+        <span class="trust-badge"><img src="https://placehold.co/24x24/635C7E/fff?text=🚚" alt="Free Shipping"> Free
+            Shipping</span>
+    </div>
+
+    <!-- Demo Site Notice -->
+    <div class="demo-badge" aria-label="Demo Site Notice">Static demo – No real products, no data collected, no payments
+        possible</div>
+
+    <!-- Footer -->
+    <footer class="footer" aria-label="Footer Navigation and Brand Story">
+        <div class="footer-logo">Aurora Jewels</div>
+        <nav class="footer-links">
+            <a href="#" aria-label="About Us">About Us</a>
+            <a href="#" aria-label="Returns">Returns</a>
+            <a href="#" aria-label="Privacy Policy">Privacy</a>
+            <a href="#" aria-label="Contact">Contact</a>
+            <a href="#" aria-label="Policies">Policies</a>
+        </nav>
+        <div class="brand-story">
+            Founded in 1995, Aurora Jewels blends heritage with innovation, creating artisan pieces for every occasion.
+            Certified, ethical, and trusted by thousands.
+        </div>
+    </footer>
+
+    <!-- Bottom Navigation (Sticky on Mobile) -->
+    <nav class="nav-bottom" aria-label="Mobile Bottom Navigation">
+        <button class="icon-btn" aria-label="Go Home" onclick="window.scrollTo({top:0,behavior:'smooth'})"><span
+                class="icon">&#8962;</span></button>
+        <button class="icon-btn" aria-label="Product Listing" onclick="showProductListing()"><span
+                class="icon">&#128142;</span></button>
+        <button class="icon-btn" aria-label="Cart" onclick="showCart()"><span class="icon">&#128722;</span></button>
+        <button class="icon-btn" aria-label="Profile" onclick="showAccount()"><span
+                class="icon">&#128100;</span></button>
+    </nav>
+
+    <!-- Loader Animation -->
+    <div class="loader" id="global-loader"></div>
+
+    <!-- Product Listing Overlay -->
+    <div id="product-listing-overlay"
+        style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:#fff;z-index:2000;overflow:auto;">
+        <div style="position:sticky;top:0;background:#fff;padding:12px 10px;box-shadow:0 2px 8px #ece7f3;">
+            <button class="icon-btn" style="float:right;" aria-label="Close" onclick="hideProductListing()"><span
+                    class="icon">&#10005;</span></button>
+            <h2 style="color:var(--accent);">Jewellery Collection</h2>
+            <button class="icon-btn" style="margin-right:8px;" aria-label="Open Filters"
+                onclick="showFilterDrawer()"><span class="icon">&#128197;</span></button>
+        </div>
+        <div id="product-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:13px;padding:16px;">
+            <!-- Dummy grid sample cards -->
+        </div>
+    </div>
+
+    <!-- Filter Drawer -->
+    <div id="filter-drawer"
+        style="display:none;position:fixed;right:0;top:0;width:72vw;max-width:330px;height:100vh;background:#fff;box-shadow:-4px 0 22px #dbd3ec7a;z-index:2100;padding:22px 13px;transition:right 0.2s;">
+        <button class="icon-btn" style="float:right;" aria-label="Close Filters" onclick="hideFilterDrawer()"><span
+                class="icon">&#10005;</span></button>
+        <h3 style="color:var(--accent);margin-bottom:13px;">Filters</h3>
+        <form id="filter-form">
+            <label for="filter-category">Category</label>
+            <select id="filter-category" name="category" style="width:100%;margin-bottom:9px;">
+                <option value="">All</option>
+                <option value="Rings">Rings</option>
+                <option value="Necklaces">Necklaces</option>
+                <option value="Earrings">Earrings</option>
+                <option value="Bridal">Bridal</option>
+                <option value="Demi-Fine">Demi-Fine</option>
+                <option value="Gifting">Gifting</option>
+                <option value="Men's">Men's</option>
+            </select>
+            <label for="filter-price">Price</label>
+            <select id="filter-price" name="price" style="width:100%;margin-bottom:9px;">
+                <option value="">Any</option>
+                <option value="under-10k">Under ₹10,000</option>
+                <option value="10k-50k">₹10,000–₹50,000</option>
+                <option value="above-50k">Above ₹50,000</option>
+            </select>
+            <label for="filter-metal">Metal Type</label>
+            <input type="text" id="filter-metal" name="metal" placeholder="E.g. Gold, Platinum"
+                style="width:100%;margin-bottom:9px;">
+            <label for="filter-purity">Purity</label>
+            <input type="text" id="filter-purity" name="purity" placeholder="E.g. 18K, 22K"
+                style="width:100%;margin-bottom:9px;">
+            <label for="filter-gem">Gemstone</label>
+            <input type="text" id="filter-gem" name="gem" placeholder="E.g. Diamond, Ruby"
+                style="width:100%;margin-bottom:9px;">
+            <label for="filter-ready">Ready-to-Ship / Made-to-Order</label>
+            <select id="filter-ready" name="ready" style="width:100%;margin-bottom:14px;">
+                <option value="">Any</option>
+                <option value="Ready-to-Ship">Ready-to-Ship</option>
+                <option value="Made-to-Order">Made-to-Order</option>
+            </select>
+            <button type="submit" class="add-cart-btn" style="width:100%;margin-top:7px;">Apply Filters</button>
+        </form>
+    </div>
+
+    <!-- Product Quick View Modal -->
+    <div id="quick-view-modal"
+        style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:#fff;z-index:2100;overflow:auto;">
+        <!-- Will be populated by JS -->
+    </div>
+
+    <!-- Cart Overlay Modal -->
+    <div id="cart-overlay"
+        style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:#fff;z-index:2200;overflow:auto;">
+        <div style="position:sticky;top:0;background:#fff;padding:12px 10px;box-shadow:0 2px 8px #ece7f3;">
+            <button class="icon-btn" style="float:right;" aria-label="Close" onclick="hideCart()"><span
+                    class="icon">&#10005;</span></button>
+            <h2 style="color:var(--accent);">Your Cart</h2>
+        </div>
+        <div id="cart-items" style="padding:16px;"></div>
+        <div style="padding:11px 16px;border-top:1px solid #e8e2cb;">
+            <div id="cart-summary"></div>
+            <button class="add-cart-btn" onclick="showCheckout()" style="width:100%;margin-top:16px;">Checkout</button>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div id="checkout-modal"
+        style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:#fff;z-index:2300;overflow:auto;">
+        <div style="position:sticky;top:0;background:#fff;padding:12px 10px;box-shadow:0 2px 8px #ece7f3;">
+            <button class="icon-btn" style="float:right;" aria-label="Close" onclick="hideCheckout()"><span
+                    class="icon">&#10005;</span></button>
+            <h2 style="color:var(--accent);">Secure Checkout</h2>
+        </div>
+        <form style="padding:18px 12px;">
+            <label for="address">Address</label>
+            <textarea id="address" style="width:100%;margin-bottom:11px;" rows="2"
+                placeholder="Flat/House No., Street, City"></textarea>
+            <label for="pincode">Pincode</label>
+            <input type="text" id="pincode" style="width:100%;margin-bottom:11px;" maxlength="12" pattern="[0-9]*">
+            <label for="phone">Mobile</label>
+            <input type="text" id="phone" style="width:100%;margin-bottom:11px;" maxlength="12" pattern="[0-9]*">
+            <label for="delivery">Delivery</label>
+            <select id="delivery" style="width:100%;margin-bottom:11px;">
+                <option>Standard – Free</option>
+                <option>Express (+₹350)</option>
+            </select>
+            <label for="payment">Payment</label>
+            <select id="payment" style="width:100%;margin-bottom:14px;">
+                <option>Credit/Debit Card</option>
+                <option>UPI</option>
+                <option>Cash on Delivery</option>
+            </select>
+            <div style="margin:8px 0;">
+                <img src="https://placehold.co/36x22/D1AF6E/fff?text=SSL" alt="SSL Secure Badge"
+                    style="margin-right:6px;">
+                <img src="https://placehold.co/36x22/31C6A8/fff?text=PCI" alt="PCI DSS Badge" style="margin-right:6px;">
+                <img src="https://placehold.co/36x22/635C7E/fff?text=Pay" alt="Payment Methods Badge">
+            </div>
+            <div id="checkout-summary" style="margin-bottom:12px;"></div>
+            <button type="button" class="add-cart-btn" style="width:100%;margin-top:5px;" onclick="orderPlaced()">Order
+                Now</button>
+            <div style="color:var(--safe);font-weight:700;margin:11px 0;">No payment or personal info is processed –
+                Demo only.</div>
+        </form>
+    </div>
+
+    <!-- Login / Signup Modal -->
+    <div id="account-modal"
+        style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:#fff;z-index:2400;overflow:auto;">
+        <div style="position:sticky;top:0;background:#fff;padding:12px 10px;box-shadow:0 2px 8px #ece7f3;">
+            <button class="icon-btn" style="float:right;" aria-label="Close" onclick="hideAccount()"><span
+                    class="icon">&#10005;</span></button>
+            <h2 style="color:var(--accent);">Login / Signup</h2>
+        </div>
+        <form style="padding:18px 12px;">
+            <label for="login-email">Email</label>
+            <input type="email" id="login-email" style="width:100%;margin-bottom:8px;" aria-label="Email Address">
+            <label for="login-mobile">Mobile</label>
+            <input type="text" id="login-mobile" style="width:100%;margin-bottom:14px;" pattern="[0-9]*"
+                aria-label="Mobile Number">
+            <button type="button" class="add-cart-btn" style="width:100%;margin-top:4px;"
+                onclick="showProfile()">Continue</button>
+        </form>
+    </div>
+    <!-- Profile Modal -->
+    <div id="profile-modal"
+        style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:#fff;z-index:2500;overflow:auto;">
+        <div style="position:sticky;top:0;background:#fff;padding:12px 10px;box-shadow:0 2px 8px #ece7f3;">
+            <button class="icon-btn" style="float:right;" aria-label="Close" onclick="hideProfile()"><span
+                    class="icon">&#10005;</span></button>
+            <h2 style="color:var(--accent);">Account</h2>
+        </div>
+        <div style="padding:17px;">
+            <h3>Orders</h3>
+            <div><span style="color:var(--primary);">No orders yet</span> – start shopping!</div>
+            <h3 style="margin-top:17px;">Wishlist</h3>
+            <div id="wishlist-items"></div>
+        </div>
+    </div>
+
+    <script>
+        // Accessibility: set alt/query aria-labels on all images/interactive elements
+
+        /* Carousel Demo */
+        const carouselImages = [
+            "https://placehold.co/375x195?text=Radiant+Bridal+Collection",
+            "https://placehold.co/375x195?text=Demi-Fine+For+Daily+Wear",
+            "https://placehold.co/375x195?text=Ethical+Certified+Jewellery"
+        ];
+        let carouselIndex = 0;
+        function setCarousel(idx) {
+            const img = document.getElementById('carousel-image');
+            img.src = carouselImages[idx];
+            document.querySelectorAll('.dot').forEach((d, i) => {
+                d.classList.toggle('active', i === idx);
+            });
+        }
+        setInterval(() => {
+            carouselIndex = (carouselIndex + 1) % carouselImages.length;
+            setCarousel(carouselIndex);
+        }, 3250);
+
+        // Loader 
+        function showLoader() {
+            document.getElementById('global-loader').style.display = 'block';
+        }
+        function hideLoader() {
+            document.getElementById('global-loader').style.display = 'none';
+        }
+
+        // Product Listing Overlay
+        const products = [
+            { name: "Diamond Radiance Ring", price: 34500, image: "https://placehold.co/150x160/fffcf4/222?text=Ring", category: "Rings", metal: "Gold", purity: "18K", gem: "Diamond", ready: "Ready-to-Ship", desc: "Brilliant-cut diamond in 18K gold.", reviews: [{ user: "Neha", text: "Absolutely radiant!", stars: 5 }] },
+            { name: "Men's Platinum Chain", price: 15250, image: "https://placehold.co/150x160/f6f5fb/222?text=Chain", category: "Men's", metal: "Platinum", purity: "Pt", gem: "None", ready: "Made-to-Order", desc: "Futuristic platinum chain for men.", reviews: [{ user: "Prem", text: "Very sturdy and elegant.", stars: 5 }] },
+            { name: "Bridal Solitaire Set", price: 79900, image: "https://placehold.co/150x160/fff/222?text=Solitaire", category: "Bridal", metal: "Gold", purity: "22K", gem: "Diamond", ready: "Made-to-Order", desc: "Classic bridal set with solitaire.", reviews: [{ user: "Asha", text: "Magnificent sparkle!", stars: 5 }] },
+            { name: "Demi-Fine Halo Pendant", price: 8300, image: "https://placehold.co/150x160/d4d8e7/222?text=Pendant", category: "Demi-Fine", metal: "Silver", purity: "925", gem: "Cubic Zirconia", ready: "Ready-to-Ship", desc: "Everyday elegance.", reviews: [{ user: "Arjun", text: "Skin-safe and looks premium.", stars: 4 }] }
+        ];
+        function showProductListing() {
+            showLoader();
+            setTimeout(() => {
+                hideLoader();
+                document.getElementById('product-listing-overlay').style.display = 'block';
+                renderProductGrid(products);
+            }, 500);
+        }
+        function hideProductListing() { document.getElementById('product-listing-overlay').style.display = 'none'; }
+        function renderProductGrid(filtered) {
+            document.getElementById('product-grid').innerHTML = filtered.map((p, i) => `
+        <div class="product-card">
+          <img src="${p.image}" alt="${p.name}" class="product-img" loading="lazy"/>
+          <span class="product-name">${p.name}</span>
+          <span class="product-price">₹${p.price.toLocaleString()}</span>
+          <button class="icon-btn" aria-label="Wishlist" onclick="addToWishlist('${p.name}')"><span class="icon">&#10084;</span></button>
+          <button class="add-cart-btn" onclick="openQuickView('${p.name}')">Quick View</button>
+        </div>
+      `).join('');
+        }
+
+        // Filter Drawer
+        function showFilterDrawer() {
+            document.getElementById('filter-drawer').style.display = 'block';
+        }
+        function hideFilterDrawer() { document.getElementById('filter-drawer').style.display = 'none'; }
+        document.getElementById('filter-form').onsubmit = function (e) {
+            e.preventDefault();
+            // Simple filters
+            const cat = e.target.category.value, price = e.target.price.value, met = e.target.metal.value.toLowerCase(), pur = e.target.purity.value, gem = e.target.gem.value.toLowerCase(), ready = e.target.ready.value;
+            let filtered = products.filter(p => {
+                return (cat ? p.category === cat : true)
+                    && (price === 'under-10k' ? p.price < 10000 : price === '10k-50k' ? p.price >= 10000 && p.price <= 50000 : price === 'above-50k' ? p.price > 50000 : true)
+                    && (met ? p.metal.toLowerCase() == met : true)
+                    && (pur ? p.purity == pur : true)
+                    && (gem ? p.gem.toLowerCase().includes(gem) : true)
+                    && (ready ? p.ready === ready : true);
+            });
+            renderProductGrid(filtered);
+            hideFilterDrawer();
+        };
+
+        // Quick View Modal
+        function openQuickView(name) {
+            const p = products.find(x => x.name == name);
+            if (!p) return;
+            document.getElementById('quick-view-modal').innerHTML = `
+        <div style="position:sticky;top:0;background:#fff;padding:12px 10px;border-bottom:1px solid #ece7f3;">
+          <button class="icon-btn" style="float:right;" aria-label="Close" onclick="closeQuickView()"><span class="icon">&#10005;</span></button>
+          <h2 style="color:var(--accent);">${p.name}</h2>
+        </div>
+        <div style="padding:14px;">
+          <div style="display:flex;gap:13px;align-items:center;">
+            <img src="${p.image}" alt="${p.name}" style="width:160px;height:160px;border-radius:13px;object-fit:cover;border:4px solid var(--primary);">
+            <span class="badge-strip">
+              <span class="trust-badge" style="font-size:0.95em;"><img src="https://placehold.co/22x22/D1AF6E/fff?text=✓" alt="In Stock"> In Stock</span>
+              <span class="trust-badge" style="font-size:0.95em;"><img src="https://placehold.co/22x22/31C6A8/fff?text=Cert" alt="Certified"> Certified</span>
+            </span>
+          </div>
+          <div style="margin-top:12px;">
+            <div>Base Price: ₹${(p.price * 0.85).toLocaleString()}</div>
+            <div>Making Charges: ₹${(p.price * 0.10).toLocaleString()}</div>
+            <div>Taxes & GST: ₹${(p.price * 0.05).toLocaleString()}</div>
+            <div style="font-weight:700;margin-top:7px;">Total: ₹${p.price.toLocaleString()}</div>
+          </div>
+          <div style="margin:7px 0;">
+            <label>Size: <select><option>Standard</option><option>6</option><option>7</option><option>8</option></select> </label>
+            <label>Metal: <select><option>${p.metal}</option><option>Gold</option><option>Platinum</option><option>Silver</option></select></label>
+            <label>Color: <select><option>Yellow Gold</option><option>White Gold</option><option>Rose Gold</option></select></label>
+            <label>Personalize: <input type="text" placeholder="Engraving?" aria-label="Personalization"></label>
+          </div>
+          <button class="add-cart-btn" onclick="addToCart('${p.name}',${p.price})" style="position:sticky;bottom:16px;width:100%;margin:12px 0;">Add to Cart</button>
+          <div style="margin-top:21px;">
+            <div style="font-weight:600;font-size:1.1em;">Product Details</div>
+            <div style="margin-left:8px;font-size:0.97em;">${p.desc}</div>
+            <div style="font-weight:600;font-size:1.1em;margin-top:11px;">Care Guide</div>
+            <div style="margin-left:8px;font-size:0.97em;">Clean with soft cloth, avoid chemicals, store dry.</div>
+            <div style="font-weight:600;font-size:1.1em;margin-top:11px;">Policy</div>
+            <div style="margin-left:8px;font-size:0.97em;">14-days easy return, secure shipping, guaranteed purity.</div>
+            <div style="font-weight:600;font-size:1.1em;margin-top:11px;">Reviews</div>
+            <div id="qv-reviews" style="margin-left:8px;font-size:0.97em;">
+              ${p.reviews.map(r => `<div aria-label="User Review"><strong>${r.user}:</strong> ${r.text} <span style="color:gold;">${'★'.repeat(r.stars)}</span></div>`).join('')}
+            </div>
+          </div>
+        </div>
+      `;
+            document.getElementById('quick-view-modal').style.display = 'block';
+        }
+        function closeQuickView() { document.getElementById('quick-view-modal').style.display = 'none'; }
+
+        // Cart Logic (dummy for demo)
+        let cart = [];
+        function addToCart(name, price) {
+            let idx = cart.findIndex(c => c.name == name);
+            if (idx > -1) cart[idx].qty += 1;
+            else cart.push({ name, price, qty: 1 });
+            updateCartCount();
+            alert('Added to cart!');
+        }
+        function showCart() {
+            showLoader();
+            setTimeout(() => {
+                hideLoader();
+                document.getElementById('cart-overlay').style.display = 'block';
+                renderCart();
+            }, 350);
+        }
+        function hideCart() { document.getElementById('cart-overlay').style.display = 'none'; }
+        function updateCartCount() {
+            const cnt = cart.reduce((a, c) => a + c.qty, 0);
+            const label = document.getElementById('cart-count');
+            label.style.display = cnt ? 'inline-block' : 'none';
+            label.innerText = cnt ? cnt : '';
+        }
+        function renderCart() {
+            if (!cart.length) {
+                document.getElementById('cart-items').innerHTML = '<span style="color:var(--danger);font-weight:bold;">Your cart is empty.</span>';
+                document.getElementById('cart-summary').innerHTML = '';
+                return;
+            }
+            document.getElementById('cart-items').innerHTML = cart.map((item, i) => `
+        <div style="display:flex;align-items:center;margin-bottom:10px;">
+          <span style="font-weight:700;">${item.name}</span>
+          <input type="number" min="1" max="21" value="${item.qty}" style="width:32px;margin:0 8px;" onchange="changeCartQty(${i},this.value)">
+          <span>₹${(item.price * item.qty).toLocaleString()}</span>
+        </div>
+      `).join('');
+            let subtotal = cart.reduce((a, c) => a + c.price * c.qty, 0);
+            let taxes = subtotal * 0.05, delivery = subtotal > 25000 ? 0 : 299, total = subtotal + taxes + delivery;
+            document.getElementById('cart-summary').innerHTML = `
+        <div>Subtotal: ₹${subtotal.toLocaleString()}</div>
+        <div>Taxes: ₹${taxes.toLocaleString()}</div>
+        <div>Delivery: ₹${delivery ? delivery : 'Free'}</div>
+        <div style="font-weight:700;font-size:1.09em;">Total: ₹${total.toLocaleString()}</div>
+      `;
+        }
+        function changeCartQty(idx, v) {
+            v = Math.max(1, Math.min(21, Number(v)));
+            cart[idx].qty = v;
+            renderCart(); updateCartCount();
+        }
+
+        // Checkout
+        function showCheckout() {
+            hideCart();
+            document.getElementById('checkout-modal').style.display = 'block';
+            // Cart summary in checkout
+            let subtotal = cart.reduce((a, c) => a + c.price * c.qty, 0);
+            let taxes = subtotal * 0.05, delivery = subtotal > 25000 ? 0 : 299, total = subtotal + taxes + delivery;
+            document.getElementById('checkout-summary').innerHTML = `
+        <div>Subtotal: ₹${subtotal.toLocaleString()}</div>
+        <div>Taxes: ₹${taxes.toLocaleString()}</div>
+        <div>Delivery: ₹${delivery ? delivery : 'Free'}</div>
+        <div style="font-weight:700;font-size:1.09em;">Total: ₹${total.toLocaleString()}</div>
+        <div style="margin:7px 0;">
+          <img src="https://placehold.co/36x22/D1AF6E/fff?text=Pay" alt="Payment Logos">
+          <img src="https://placehold.co/36x22/31C6A8/fff?text=SSL" alt="SSL Secure">
+          <img src="https://placehold.co/36x22/635C7E/fff?text=PCI" alt="PCI DSS">
+        </div>
+      `;
+        }
+        function hideCheckout() { document.getElementById('checkout-modal').style.display = 'none'; }
+        function orderPlaced() {
+            alert("Order placed (Demo only, no data processed).");
+            cart = []; updateCartCount();
+            hideCheckout();
+        }
+
+        // Account/Signup/Profile (static)
+        function showAccount() { document.getElementById('account-modal').style.display = 'block'; }
+        function hideAccount() { document.getElementById('account-modal').style.display = 'none'; }
+        function showProfile() {
+            hideAccount();
+            document.getElementById('profile-modal').style.display = 'block';
+            updateWishlist();
+        }
+        function hideProfile() { document.getElementById('profile-modal').style.display = 'none'; }
+
+        // Wishlist (dummy)
+        let wishlist = [];
+        function addToWishlist(name) {
+            if (!wishlist.includes(name)) wishlist.push(name);
+            updateWishlist();
+            alert("Added to wishlist!");
+        }
+        function updateWishlist() {
+            document.getElementById('wishlist-items').innerHTML = wishlist.length ? wishlist.map(w => `<div>${w}</div>`).join('') : '<span>No wishlist items yet.</span>';
+        }
+
+        // Sticky navigation/menu (stub)
+        function showMenu() { alert("Menu opened (Demo)."); }
+
+        // Accessibility: All interactive JS events trigger updates and ARIA feedback appropriately
+
+        // Skeleton Loader Demo (for rapid page/image load simulation)
+        document.querySelectorAll('.product-img').forEach(img => {
+            img.onerror = function () {
+                this.classList.add('skeleton');
+            };
+            img.onload = function () {
+                this.classList.remove('skeleton');
+            };
+        });
+
+        // Content separation, readable font sizes, and contrast for accessibility are enforced in CSS above.
+    </script>
+</body>
+
+</html>

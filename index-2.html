@@ -1,0 +1,1653 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Aurora Jewels — Mobile Demo</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* ===========================
+     Mobile-first CSS variables
+     =========================== */
+        :root {
+            --mobile-width: 375px;
+            --bg: #fbfbfd;
+            --card: #ffffff;
+            --muted: #6b7280;
+            --accent: #2b2d42;
+            --gold: #c59b3a;
+            --gold-2: #b88625;
+            --primary: #2c3e50;
+            /* muted blue/gray */
+            --secondary: #6f7aa7;
+            /* muted purple */
+            --success: #16a34a;
+            --danger: #ef4444;
+            --glass: rgba(255, 255, 255, 0.6);
+            --shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+            --radius: 14px;
+            --small-radius: 8px;
+            --max-width: 1280px;
+            --touch: 48px;
+        }
+
+        /* Reset & base */
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            background: linear-gradient(180deg, var(--bg), #f7f8fb);
+            color: var(--primary);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            line-height: 1.35;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none
+        }
+
+        img {
+            max-width: 100%;
+            display: block
+        }
+
+        /* App container */
+        .app {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* ====================
+     Sticky header & nav
+     ==================== */
+        header.header {
+            position: sticky;
+            top: 0;
+            z-index: 80;
+            backdrop-filter: blur(6px);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.75));
+            border-bottom: 1px solid rgba(20, 20, 25, 0.04);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 14px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--gold), var(--gold-2));
+            color: white;
+            font-weight: 700;
+            font-size: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        .brand h1 {
+            font-size: 16px;
+            margin: 0;
+            line-height: 1
+        }
+
+        .brand small {
+            display: block;
+            font-size: 11px;
+            color: var(--muted)
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 8px;
+            align-items: center
+        }
+
+        .icon-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--card);
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(15, 23, 42, 0.03);
+        }
+
+        .icon-btn[aria-pressed="true"] {
+            outline: 2px solid rgba(99, 102, 241, 0.14)
+        }
+
+        /* ======================
+     Mobile bottom nav bar
+     ====================== */
+        nav.bottom-nav {
+            position: sticky;
+            bottom: 0;
+            z-index: 80;
+            display: flex;
+            gap: 8px;
+            padding: 8px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.98));
+            border-top: 1px solid rgba(15, 23, 42, 0.04);
+            justify-content: space-around;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 11px;
+            color: var(--muted)
+        }
+
+        .nav-item svg {
+            width: 20px;
+            height: 20px;
+            margin-bottom: 4px
+        }
+
+        /* ====================
+     Page wrapper & blocks
+     ==================== */
+        main.content {
+            padding: 14px 14px 100px;
+        }
+
+        .hero {
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            background: linear-gradient(180deg, #fff, #fff);
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .hero .slides {
+            display: flex;
+            transition: transform .35s ease;
+            will-change: transform;
+        }
+
+        .hero .slide {
+            min-width: 100%;
+            height: 170px;
+            position: relative;
+            background: #eee;
+        }
+
+        .hero .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover
+        }
+
+        .hero .indicators {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 6px;
+        }
+
+        .hero .indicators button {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            border: none;
+            background: rgba(255, 255, 255, 0.7);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+        }
+
+        .hero .indicators button.active {
+            background: var(--gold)
+        }
+
+        /* =====================
+     Category cards
+     ===================== */
+        .categories {
+            display: flex;
+            gap: 10px;
+            overflow: auto;
+            padding-bottom: 6px;
+            margin-bottom: 12px;
+        }
+
+        .category {
+            min-width: 120px;
+            flex: 0 0 auto;
+            border-radius: 12px;
+            background: linear-gradient(180deg, #fff, #fff);
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: flex-start;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(15, 23, 42, 0.03);
+        }
+
+        .category h3 {
+            margin: 0;
+            font-size: 14px
+        }
+
+        .category p {
+            margin: 0;
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        /* =====================
+     Featured collection
+     ===================== */
+        .strip-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 8px 0
+        }
+
+        .featured {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .product-card {
+            background: var(--card);
+            border-radius: 12px;
+            padding: 10px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(15, 23, 42, 0.03);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-thumb {
+            height: 130px;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+            background: #f4f5f8
+        }
+
+        .product-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block
+        }
+
+        .skeleton {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, #f0f0f0 0%, #e9e9e9 50%, #f0f0f0 100%);
+            background-size: 200% 100%;
+            animation: skeleton 1.2s linear infinite;
+        }
+
+        @keyframes skeleton {
+            from {
+                background-position: 200% 0
+            }
+
+            to {
+                background-position: -200% 0
+            }
+        }
+
+        .product-info {
+            padding-top: 8px
+        }
+
+        .product-info h4 {
+            margin: 0;
+            font-size: 14px
+        }
+
+        .product-info p {
+            margin: 4px 0 0;
+            font-weight: 600
+        }
+
+        .cta-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 8px
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            border: none
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--gold), var(--gold-2));
+            color: white;
+            box-shadow: 0 8px 24px rgba(182, 142, 58, 0.18)
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(15, 23, 42, 0.08);
+            color: var(--primary)
+        }
+
+        /* =====================
+     Trust badges strip
+     ===================== */
+        .trust-strip {
+            display: flex;
+            gap: 8px;
+            overflow: auto;
+            margin: 12px 0;
+            padding: 8px;
+        }
+
+        .badge {
+            min-width: 120px;
+            background: linear-gradient(180deg, #fff, #fff);
+            padding: 8px 12px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: var(--shadow);
+        }
+
+        /* =====================
+     Product Listing page
+     ===================== */
+        .pl-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px
+        }
+
+        .card-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 8px
+        }
+
+        .price {
+            font-weight: 700
+        }
+
+        /* =====================
+     Filter Drawer
+     ===================== */
+        .drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100vh;
+            width: 320px;
+            max-width: 92%;
+            background: var(--card);
+            box-shadow: -8px 0 32px rgba(15, 23, 42, 0.12);
+            z-index: 120;
+            transform: translateX(110%);
+            transition: transform .35s cubic-bezier(.2, .9, .2, 1);
+            padding: 18px;
+            overflow: auto;
+            border-left: 1px solid rgba(15, 23, 42, 0.03);
+        }
+
+        .drawer.open {
+            transform: translateX(0)
+        }
+
+        .drawer h3 {
+            margin: 0 0 12px
+        }
+
+        .filter-group {
+            margin-bottom: 12px
+        }
+
+        .filter-group label {
+            display: block;
+            font-size: 13px;
+            margin-bottom: 6px
+        }
+
+        .filter-actions {
+            display: flex;
+            gap: 8px;
+            justify-content: space-between
+        }
+
+        /* =====================
+     Quick View & Modals
+     ===================== */
+        .modal-backdrop {
+            position: fixed;
+            inset: 0;
+            background: rgba(3, 7, 18, 0.45);
+            z-index: 130;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-backdrop.show {
+            display: flex
+        }
+
+        .modal {
+            background: var(--card);
+            width: 94%;
+            max-width: 720px;
+            border-radius: 14px;
+            padding: 14px;
+            box-shadow: var(--shadow);
+            max-height: 90vh;
+            overflow: auto;
+        }
+
+        /* =====================
+     Product Detail (single page area)
+     ===================== */
+        .product-page {
+            display: none
+        }
+
+        .product-page.active {
+            display: block
+        }
+
+        .gallery {
+            display: flex;
+            gap: 10px;
+            overflow: hidden;
+            margin-bottom: 10px
+        }
+
+        .gallery-main {
+            flex: 1;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            height: 300px
+        }
+
+        .gallery-main img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            touch-action: pan-y
+        }
+
+        .gallery-thumbs {
+            display: flex;
+            gap: 6px;
+            align-items: center
+        }
+
+        .thumb {
+            width: 56px;
+            height: 56px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid transparent
+        }
+
+        .thumb.selected {
+            border-color: var(--gold)
+        }
+
+        .sticky-cta {
+            position: sticky;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            gap: 8px;
+            padding: 12px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.98));
+            border-top: 1px solid rgba(15, 23, 42, 0.04);
+            z-index: 70;
+        }
+
+        /* =====================
+     Cart overlay
+     ===================== */
+        .cart-drawer {
+            position: fixed;
+            top: 0;
+            right: 0;
+            height: 100vh;
+            width: 360px;
+            max-width: 100%;
+            background: var(--card);
+            box-shadow: -12px 0 40px rgba(15, 23, 42, 0.16);
+            z-index: 140;
+            transform: translateX(110%);
+            transition: transform .35s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .cart-drawer.open {
+            transform: translateX(0)
+        }
+
+        .cart-items {
+            padding: 14px;
+            overflow: auto;
+            flex: 1
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px dashed rgba(15, 23, 42, 0.04)
+        }
+
+        .qty-controls {
+            display: flex;
+            gap: 6px;
+            align-items: center
+        }
+
+        .summary {
+            padding: 12px;
+            border-top: 1px solid rgba(15, 23, 42, 0.04)
+        }
+
+        /* =====================
+     Checkout page (simple)
+     ===================== */
+        .checkout {
+            display: none
+        }
+
+        .checkout.active {
+            display: block
+        }
+
+        .form-row {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px
+        }
+
+        .form-row .field {
+            flex: 1
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(15, 23, 42, 0.06);
+            background: #fff;
+            font-size: 14px;
+        }
+
+        /* =====================
+     Account modal
+     ===================== */
+        .account-panel {
+            display: none
+        }
+
+        .account-panel.active {
+            display: block;
+            padding: 12px
+        }
+
+        /* =====================
+     Footer
+     ===================== */
+        footer {
+            padding: 14px;
+            margin-top: 18px;
+            background: transparent
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px
+        }
+
+        .brand-history {
+            font-size: 13px;
+            color: var(--muted)
+        }
+
+        .quick-links {
+            display: flex;
+            flex-direction: column;
+            gap: 6px
+        }
+
+        /* =====================
+     Responsive breakpoints
+     ===================== */
+        @media (min-width:768px) {
+            main.content {
+                padding: 20px;
+            }
+
+            .hero .slide {
+                height: 260px
+            }
+
+            .gallery-main {
+                height: 420px
+            }
+
+            .product-card {
+                padding: 14px
+            }
+
+            .categories {
+                gap: 14px
+            }
+
+            .drawer {
+                width: 420px
+            }
+
+            .cart-drawer {
+                width: 420px
+            }
+        }
+
+        @media (min-width:1200px) {
+            .content-wrapper {
+                display: flex;
+                gap: 20px
+            }
+
+            main.content {
+                flex: 1
+            }
+        }
+
+        /* Accessibility helpers */
+        .sr-only {
+            position: absolute;
+            left: -9999px;
+            top: auto;
+            width: 1px;
+            height: 1px;
+            overflow: hidden
+        }
+
+        button {
+            font: inherit
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app" role="application" aria-label="Aurora Jewels demo storefront">
+
+        <!-- Sticky Header -->
+        <header class="header" role="banner" aria-label="Main header">
+            <div class="brand" aria-hidden="false">
+                <div class="logo" aria-hidden="true">A</div>
+                <div>
+                    <h1 aria-level="1">Aurora Jewels</h1>
+                    <small>Certified • Ethical • Artisan</small>
+                </div>
+            </div>
+
+            <div class="header-actions" role="toolbar" aria-label="Header actions">
+                <button class="icon-btn" id="searchBtn" aria-label="Search products">
+                    <!-- search icon -->
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M21 21l-4.35-4.35" stroke="#374151" stroke-width="1.5" stroke-linecap="round" />
+                    </svg>
+                </button>
+
+                <button class="icon-btn" id="accountBtn" aria-label="Open account" title="Account">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M12 12a4 4 0 100-8 4 4 0 000 8z" stroke="#374151" stroke-width="1.5"
+                            stroke-linecap="round" />
+                    </svg>
+                </button>
+
+                <button class="icon-btn" id="cartBtn" aria-label="Open cart" title="Cart (0)">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M3 3h2l.4 2M7 13h10l4-8H5.4" stroke="#374151" stroke-width="1.5" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Content -->
+        <main class="content" role="main">
+
+            <!-- Homepage view -->
+            <section id="homeView" class="home-view" aria-label="Home page">
+                <!-- Hero carousel -->
+                <section class="hero" aria-label="Promotional carousel" role="region">
+                    <div class="slides" id="heroSlides" aria-live="polite">
+                        <div class="slide" data-index="0">
+                            <img src="https://picsum.photos/800/480?seed=aurora1"
+                                alt="Aurora Jewels - Shine Bright Collection" loading="lazy" />
+                            <div
+                                style="position:absolute;left:12px;bottom:12px;color:white; text-shadow:0 2px 8px rgba(0,0,0,0.4);">
+                                <h2 style="margin:0;font-size:18px;">Shine Bright — Diamond Radiance</h2>
+                                <p style="margin:4px 0 0;font-size:13px;">Heirloom pieces, certified brilliance.</p>
+                            </div>
+                        </div>
+                        <div class="slide" data-index="1">
+                            <img src="https://picsum.photos/800/480?seed=aurora2"
+                                alt="Aurora Jewels - Bridal Collection" loading="lazy" />
+                            <div style="position:absolute;left:12px;bottom:12px;color:white;">
+                                <h2 style="margin:0;font-size:18px;">Bridal Elegance — Bridal Solitaire Set</h2>
+                                <p style="margin:4px 0 0;font-size:13px;">Timeless, artisan-crafted sets for your day.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="slide" data-index="2">
+                            <img src="https://picsum.photos/800/480?seed=aurora3" alt="Aurora Jewels - Men’s Collection"
+                                loading="lazy" />
+                            <div style="position:absolute;left:12px;bottom:12px;color:white;">
+                                <h2 style="margin:0;font-size:18px;">For Him — Men’s Platinum Chain</h2>
+                                <p style="margin:4px 0 0;font-size:13px;">Bold designs, refined craft.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="indicators" id="heroIndicators" aria-hidden="true">
+                        <button data-slide="0" class="active" aria-label="Slide 1"></button>
+                        <button data-slide="1" aria-label="Slide 2"></button>
+                        <button data-slide="2" aria-label="Slide 3"></button>
+                    </div>
+                </section>
+
+                <!-- Categories -->
+                <section aria-label="Categories">
+                    <div class="categories" role="list">
+                        <div class="category" role="listitem" tabindex="0" data-cat="Rings">
+                            <strong>Rings</strong>
+                            <p>Diamond, solitaire & everyday</p>
+                        </div>
+                        <div class="category" role="listitem" tabindex="0" data-cat="Necklaces">
+                            <strong>Necklaces</strong>
+                            <p>Pendants to statement chains</p>
+                        </div>
+                        <div class="category" role="listitem" tabindex="0" data-cat="Earrings">
+                            <strong>Earrings</strong>
+                            <p>Studs, drops & hoops</p>
+                        </div>
+                        <div class="category" role="listitem" tabindex="0" data-cat="Bridal">
+                            <strong>Bridal</strong>
+                            <p>Sets for your special day</p>
+                        </div>
+                        <div class="category" role="listitem" tabindex="0" data-cat="Demi-Fine">
+                            <strong>Demi-Fine</strong>
+                            <p>Everyday elegance</p>
+                        </div>
+                        <div class="category" role="listitem" tabindex="0" data-cat="Gifting">
+                            <strong>Gifting</strong>
+                            <p>Curated gift picks</p>
+                        </div>
+                        <div class="category" role="listitem" tabindex="0" data-cat="Men's">
+                            <strong>Men’s</strong>
+                            <p>Chains, rings & more</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Featured Collection -->
+                <section aria-label="Featured Collection" style="margin-top:6px;">
+                    <div class="strip-title">
+                        <h3>Featured Collection</h3>
+                        <a href="#" id="viewAllBtn" aria-label="View all products" class="sr-only">View all</a>
+                    </div>
+                    <div class="featured pl-grid" id="featuredList" aria-live="polite">
+                        <!-- JS populates -->
+                    </div>
+                </section>
+
+                <!-- Trust badges -->
+                <section class="trust-strip" aria-label="Trust badges">
+                    <div class="badge">
+                        <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M12 2l3 6 6 .5-4.5 3.5L18 21l-6-4-6 4 1.5-8.5L3 8.5 9 8z" fill="url(#g)" />
+                        </svg>
+                        <div>
+                            <div style="font-weight:700">Certified Jewellery</div>
+                            <small style="color:var(--muted)">Assessed & Hallmarked</small>
+                        </div>
+                    </div>
+                    <div class="badge">
+                        <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M5 12h14" stroke="#374151" stroke-width="1.5" stroke-linecap="round" />
+                        </svg>
+                        <div>
+                            <div style="font-weight:700">Secure Checkout</div>
+                            <small style="color:var(--muted)">SSL & Payment safety</small>
+                        </div>
+                    </div>
+                    <div class="badge">
+                        <svg width="28" height="28" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M12 2l9 7v11H3V9z" fill="#f5f5f5" />
+                        </svg>
+                        <div>
+                            <div style="font-weight:700">Free Shipping</div>
+                            <small style="color:var(--muted)">Orders over ₹3,000</small>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Short Info / Story -->
+                <section aria-label="Brand story"
+                    style="margin-top:12px; background:linear-gradient(180deg,#fff,#fff); padding:12px; border-radius:12px; box-shadow:var(--shadow)">
+                    <h3>About Aurora Jewels</h3>
+                    <p class="brand-history">Founded in 1995, Aurora Jewels blends heritage with innovation, creating
+                        artisan pieces for every occasion. Certified, ethical, and trusted by thousands.</p>
+                </section>
+
+            </section>
+
+            <!-- Product Listing View -->
+            <section id="listingView" class="listing-view" aria-hidden="true" style="display:none">
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+                    <h2>All Products</h2>
+                    <div style="display:flex; gap:8px;">
+                        <button class="icon-btn" id="filterBtn" aria-label="Open filters">
+                            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M3 5h18M6 12h12M10 19h4" stroke="#374151" stroke-width="1.5"
+                                    stroke-linecap="round" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="pl-grid" id="productGrid" aria-live="polite">
+                    <!-- populated by JS -->
+                </div>
+            </section>
+
+            <!-- Product Detail View -->
+            <section id="productView" class="product-page" aria-hidden="true">
+                <!-- Back button -->
+                <div style="display:flex; gap:8px; align-items:center; margin-bottom:8px;">
+                    <button class="icon-btn" id="backToListing" aria-label="Back to listing">
+                        <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                            <path d="M15 6l-6 6 6 6" stroke="#374151" stroke-width="1.5" stroke-linecap="round"
+                                stroke-linejoin="round" />
+                        </svg>
+                    </button>
+                    <h2 id="pd-title">Product Title</h2>
+                </div>
+
+                <div class="gallery" aria-label="Product images">
+                    <div class="gallery-main" id="galleryMain">
+                        <div class="skeleton" id="gallerySkeleton"></div>
+                        <img id="galleryImg" src="" alt="" loading="lazy" />
+                    </div>
+                </div>
+
+                <div style="margin-top:8px;">
+                    <div id="pd-price" style="font-size:18px;font-weight:800"></div>
+                    <div style="margin-top:6px;display:flex;gap:8px;align-items:center;">
+                        <div
+                            style="background:linear-gradient(90deg,var(--gold),var(--gold-2)); color:white; padding:6px 8px; border-radius:8px; font-weight:700">
+                            In Stock</div>
+                        <div style="font-size:12px;color:var(--muted)">Certified • Hallmarked • Free returns in 7 days
+                        </div>
+                    </div>
+
+                    <!-- Options -->
+                    <div style="margin-top:10px;">
+                        <label for="sizeSelect">Size</label>
+                        <select id="sizeSelect" aria-label="Choose size">
+                            <option value="none">Select size</option>
+                            <option>16</option>
+                            <option>17</option>
+                            <option>18</option>
+                            <option>19</option>
+                        </select>
+                        <div style="height:8px"></div>
+                        <label for="metalSelect">Metal</label>
+                        <select id="metalSelect" aria-label="Choose metal">
+                            <option>14K Gold</option>
+                            <option>18K Gold</option>
+                            <option>Platinum</option>
+                        </select>
+                        <div style="height:8px"></div>
+                        <label for="note">Personalization (optional)</label>
+                        <input id="note" type="text" placeholder="e.g., engraving text (max 20 chars)" maxlength="20"
+                            aria-label="Personalization" />
+                    </div>
+
+                    <!-- Accordion -->
+                    <div style="margin-top:12px;">
+                        <details open>
+                            <summary style="font-weight:700">Product Details</summary>
+                            <p style="color:var(--muted)">Artisan-crafted, conflict-free gemstones, certified diamonds.
+                                Includes appraisal and authenticity certificate.</p>
+                        </details>
+                        <details>
+                            <summary style="font-weight:700">Care Guide</summary>
+                            <p style="color:var(--muted)">Clean with soft cloth. Avoid perfume and salt water. Remove
+                                during sports.</p>
+                        </details>
+                        <details>
+                            <summary style="font-weight:700">Return & Exchange Policy</summary>
+                            <p style="color:var(--muted)">7-day free returns on unworn items. Buyers pay for insured
+                                return shipping for international orders.</p>
+                        </details>
+                        <details>
+                            <summary style="font-weight:700">Reviews</summary>
+                            <p style="color:var(--muted)"><strong>4.8/5</strong> — "Exquisite craft and fast delivery."
+                                — A. K.</p>
+                        </details>
+                    </div>
+
+                </div>
+
+                <!-- sticky CTA -->
+                <div class="sticky-cta">
+                    <div style="flex:1">
+                        <div style="font-size:13px;color:var(--muted)">Total</div>
+                        <div id="pd-total" style="font-weight:800;font-size:16px">₹0</div>
+                    </div>
+                    <div style="display:flex;gap:8px;">
+                        <button class="btn btn-outline" id="wishlistBtn" aria-pressed="false">♡ Wishlist</button>
+                        <button class="btn btn-primary" id="addToCartPD">Add to cart</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Checkout -->
+            <section id="checkoutView" class="checkout" aria-hidden="true">
+                <h2>Checkout</h2>
+                <div style="display:grid;grid-template-columns:1fr;gap:10px;">
+                    <div>
+                        <h3>Delivery Address</h3>
+                        <div class="form-row">
+                            <div class="field"><input type="text" id="fname" placeholder="Full name" /></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="field"><input type="tel" id="phone" placeholder="Mobile number" /></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="field"><input type="text" id="addr1" placeholder="Address line 1" /></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="field"><input type="text" id="city" placeholder="City" /></div>
+                            <div class="field"><input type="text" id="pincode" placeholder="PIN code" /></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3>Delivery Options</h3>
+                        <label><input type="radio" name="delivery" checked /> Standard (3-5 days)</label><br />
+                        <label><input type="radio" name="delivery" /> Express (1-2 days)</label>
+                    </div>
+
+                    <div>
+                        <h3>Payment</h3>
+                        <label><input type="radio" name="payment" checked /> Credit/Debit/Netbanking</label><br />
+                        <label><input type="radio" name="payment" /> UPI</label><br />
+                        <label><input type="radio" name="payment" /> Cash on Delivery</label>
+                        <div style="margin-top:8px; font-size:13px; color:var(--muted)">Order total: <strong
+                                id="checkoutTotal">₹0</strong></div>
+                        <div style="margin-top:10px;">
+                            <button class="btn btn-primary" id="placeOrderBtn">Order Now</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer role="contentinfo">
+            <div class="footer-grid" style="padding:12px 14px;">
+                <div>
+                    <h3 style="margin:0">Aurora Jewels</h3>
+                    <p class="brand-history">Founded in 1995, Aurora Jewels blends heritage with innovation, creating
+                        artisan pieces for every occasion. Certified, ethical, and trusted by thousands.</p>
+                </div>
+                <div>
+                    <div class="quick-links">
+                        <a href="#" onclick="alert('Privacy Policy (demo)')">Privacy</a>
+                        <a href="#" onclick="alert('Returns Policy (demo)')">Returns</a>
+                        <a href="#" onclick="alert('Contact us at demo@example.com')">Contact</a>
+                        <a href="#" onclick="alert('Policies (demo)')">Policies</a>
+                    </div>
+                </div>
+            </div>
+            <div style="padding:12px; text-align:center; font-size:12px; color:var(--muted)">
+                © Aurora Jewels • All demo content is fictional. No payments collected.
+            </div>
+        </footer>
+
+        <!-- Bottom nav (mobile) -->
+        <nav class="bottom-nav" role="navigation" aria-label="Bottom navigation">
+            <div class="nav-item" role="button" id="homeBtn"><svg viewBox="0 0 24 24" fill="none">
+                    <path d="M3 10.5L12 3l9 7.5" stroke="#374151" stroke-width="1.4" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg><span>Home</span></div>
+            <div class="nav-item" role="button" id="searchNav"><svg viewBox="0 0 24 24" fill="none">
+                    <path d="M21 21l-4.35-4.35" stroke="#374151" stroke-width="1.4" stroke-linecap="round" />
+                </svg><span>Search</span></div>
+            <div class="nav-item" role="button" id="collectionsNav"><svg viewBox="0 0 24 24" fill="none">
+                    <path d="M3 7h18M3 12h18M3 17h18" stroke="#374151" stroke-width="1.4" stroke-linecap="round" />
+                </svg><span>Collections</span></div>
+            <div class="nav-item" role="button" id="bagNav"><svg viewBox="0 0 24 24" fill="none">
+                    <path d="M3 6h18l-1.5 13h-15L3 6z" stroke="#374151" stroke-width="1.4" stroke-linecap="round" />
+                </svg><span>Cart</span></div>
+        </nav>
+
+        <!-- Filter Drawer -->
+        <aside class="drawer" id="filterDrawer" role="dialog" aria-hidden="true" aria-label="Filters">
+            <h3>Filters</h3>
+            <div class="filter-group">
+                <label>Category</label>
+                <select id="fCategory">
+                    <option value="">All</option>
+                    <option>Rings</option>
+                    <option>Necklaces</option>
+                    <option>Earrings</option>
+                    <option>Bridal</option>
+                    <option>Demi-Fine</option>
+                    <option>Men's</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Price (max)</label>
+                <input type="range" id="fPrice" min="500" max="200000" step="100" value="200000" />
+                <div style="font-size:13px;color:var(--muted)">Max: <span id="fPriceVal">200000</span></div>
+            </div>
+            <div class="filter-group">
+                <label>Metal</label>
+                <label><input type="checkbox" value="Gold" class="metalFilter" /> Gold</label><br />
+                <label><input type="checkbox" value="Platinum" class="metalFilter" /> Platinum</label><br />
+                <label><input type="checkbox" value="Silver" class="metalFilter" /> Silver</label>
+            </div>
+
+            <div style="display:flex;gap:8px;" class="filter-actions">
+                <button class="btn btn-outline" id="clearFilters">Clear</button>
+                <button class="btn btn-primary" id="applyFilters">Apply</button>
+            </div>
+        </aside>
+
+        <!-- Quick view modal -->
+        <div class="modal-backdrop" id="quickModal" aria-hidden="true">
+            <div class="modal" role="dialog" aria-modal="true" aria-label="Quick view">
+                <div style="display:flex;justify-content:space-between;align-items:center;">
+                    <h3 id="qTitle">Quick View</h3>
+                    <button class="icon-btn" id="closeQuick" aria-label="Close quick view">✕</button>
+                </div>
+                <div style="display:flex;gap:12px;margin-top:12px;">
+                    <div style="flex:1">
+                        <div style="border-radius:12px; overflow:hidden; height:220px; background:#f4f5f8">
+                            <img id="qImg" src="" alt="" style="width:100%;height:100%;object-fit:cover" />
+                        </div>
+                    </div>
+                    <div style="flex:1">
+                        <div id="qPrice" style="font-weight:800;font-size:16px"></div>
+                        <p id="qDesc" style="color:var(--muted)"></p>
+                        <div style="display:flex;gap:8px;margin-top:10px;">
+                            <button class="btn btn-outline" id="qWishlist">♡ Wishlist</button>
+                            <button class="btn btn-primary" id="qAddCart">Add to cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cart drawer -->
+        <aside class="cart-drawer" id="cartDrawer" aria-hidden="true" role="dialog" aria-label="Shopping cart">
+            <div
+                style="display:flex;justify-content:space-between;align-items:center;padding:12px;border-bottom:1px solid rgba(15,23,42,0.04)">
+                <h3>Cart</h3>
+                <button class="icon-btn" id="closeCart" aria-label="Close cart">✕</button>
+            </div>
+            <div class="cart-items" id="cartItems" role="region" aria-live="polite">
+                <!-- items -->
+            </div>
+            <div class="summary">
+                <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+                    <div>Subtotal</div>
+                    <div id="subtotal">₹0</div>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+                    <div>Taxes</div>
+                    <div id="taxes">₹0</div>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+                    <div>Delivery</div>
+                    <div id="deliveryCharge">₹0</div>
+                </div>
+                <div style="display:flex;justify-content:space-between;margin-top:10px;font-weight:800;font-size:18px">
+                    <div>Total</div>
+                    <div id="cartTotal">₹0</div>
+                </div>
+                <div style="margin-top:10px">
+                    <button class="btn btn-primary" id="checkoutBtn">Proceed to Checkout</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Account Modal -->
+        <div class="modal-backdrop" id="accountModal" aria-hidden="true">
+            <div class="modal" role="dialog" aria-label="Account">
+                <div id="accountContent" class="account-panel">
+                    <h3>Login / Signup</h3>
+                    <p style="color:var(--muted)">Use email or mobile to continue (demo only).</p>
+                    <div style="display:grid;gap:8px;">
+                        <input type="email" id="accEmail" placeholder="Email" />
+                        <input type="tel" id="accMobile" placeholder="Mobile number" />
+                        <div style="display:flex;gap:8px;">
+                            <button class="btn btn-outline" id="accCancel">Cancel</button>
+                            <button class="btn btn-primary" id="accSubmit">Continue</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        /* ============================
+           Simple SPA + Data + Controls
+           ============================ */
+
+        /* Sample dummy data (products) */
+        const PRODUCTS = [
+            {
+                id: 'r1',
+                category: 'Rings',
+                name: 'Diamond Radiance Ring',
+                price: 74999,
+                image: 'https://picsum.photos/600/600?seed=ring1',
+                desc: '1.2ct certified diamond in 18K gold. Hallmarked and ethically sourced.',
+                metal: '18K Gold'
+            },
+            {
+                id: 'n1',
+                category: 'Necklaces',
+                name: 'Eternal Pearl Necklace',
+                price: 34999,
+                image: 'https://picsum.photos/600/600?seed=neck1',
+                desc: 'Cultured pearl strand with delicate clasp. Everyday elegance.',
+                metal: 'Gold'
+            },
+            {
+                id: 'e1',
+                category: 'Earrings',
+                name: 'Classic Studs',
+                price: 8999,
+                image: 'https://picsum.photos/600/600?seed=ear1',
+                desc: 'Timeless studs — perfect for gifting.',
+                metal: '14K Gold'
+            },
+            {
+                id: 'b1',
+                category: 'Bridal',
+                name: 'Bridal Solitaire Set',
+                price: 159999,
+                image: 'https://picsum.photos/600/600?seed=bridal1',
+                desc: 'Complete bridal set with certificate.',
+                metal: 'Platinum'
+            },
+            {
+                id: 'd1',
+                category: 'Demi-Fine',
+                name: 'Everyday Huggies',
+                price: 3999,
+                image: 'https://picsum.photos/600/600?seed=demi1',
+                desc: 'Waterproof, skin-safe demi-fine earrings.',
+                metal: 'Alloy'
+            },
+            {
+                id: 'm1',
+                category: "Men's",
+                name: "Men's Platinum Chain",
+                price: 55999,
+                image: 'https://picsum.photos/600/600?seed=men1',
+                desc: 'Solid platinum chain with polished finish.',
+                metal: 'Platinum'
+            }
+        ];
+
+        /* App state */
+        let state = {
+            view: 'home', // 'home','listing','product','checkout'
+            cart: [],
+            currentProduct: null,
+            filters: {
+                category: '',
+                maxPrice: 200000,
+                metals: []
+            }
+        };
+
+        /* Utilities */
+        const query = (s, root = document) => root.querySelector(s);
+        const queryAll = (s, root = document) => Array.from(root.querySelectorAll(s));
+        const rup = v => '₹' + v.toLocaleString('en-IN');
+
+        /* ================
+           Populate content
+           ================ */
+        function populateFeatured() {
+            const container = query('#featuredList');
+            container.innerHTML = '';
+            const featured = PRODUCTS.slice(0, 4);
+            featured.forEach(p => {
+                const div = document.createElement('div');
+                div.className = 'product-card';
+                div.innerHTML = `
+      <div class="product-thumb">
+        <div class="skeleton"></div>
+        <img src="${p.image}" alt="${p.name}" loading="lazy" />
+      </div>
+      <div class="product-info">
+        <h4>${p.name}</h4>
+        <p class="price">${rup(p.price)}</p>
+        <div class="cta-row">
+          <button class="btn btn-outline quick-view" data-id="${p.id}">Quick View</button>
+          <button class="btn btn-primary add-cart" data-id="${p.id}">Add to Cart</button>
+        </div>
+      </div>
+    `;
+                // add listeners
+                container.appendChild(div);
+            });
+        }
+
+        function populateListing(filterFn = null) {
+            const grid = query('#productGrid');
+            grid.innerHTML = '';
+            let items = PRODUCTS.slice();
+            if (filterFn) items = items.filter(filterFn);
+            items.forEach(p => {
+                const card = document.createElement('article');
+                card.className = 'product-card';
+                card.innerHTML = `
+      <div class="product-thumb">
+        <div class="skeleton"></div>
+        <img src="${p.image}" alt="${p.name}" loading="lazy" />
+      </div>
+      <div class="product-info">
+        <h4>${p.name}</h4>
+        <div class="card-meta">
+          <div class="price">${rup(p.price)}</div>
+          <div>
+            <button class="icon-btn quick-view" data-id="${p.id}" aria-label="Quick view ${p.name}">👁</button>
+          </div>
+        </div>
+      </div>
+    `;
+                // click on card opens product detail
+                card.querySelector('.product-thumb').addEventListener('click', () => openProduct(p.id));
+                grid.appendChild(card);
+            });
+        }
+
+        function applyFilters() {
+            const f = state.filters;
+            populateListing(p => {
+                if (f.category && p.category !== f.category) return false;
+                if (p.price > f.maxPrice) return false;
+                if (f.metals.length && !f.metals.includes(p.metal)) return false;
+                return true;
+            });
+        }
+
+        /* ================
+           Hero Carousel
+           ================ */
+        (function hero() {
+            const slides = query('#heroSlides');
+            const indicators = queryAll('#heroIndicators button');
+            let idx = 0;
+            let autoplay;
+            function show(i) {
+                idx = (i + indicators.length) % indicators.length;
+                slides.style.transform = `translateX(-${idx * 100}%)`;
+                indicators.forEach(b => b.classList.remove('active'));
+                indicators[idx].classList.add('active');
+            }
+            function start() { autoplay = setInterval(() => show(idx + 1), 4500); }
+            function stop() { clearInterval(autoplay); }
+            indicators.forEach(b => b.addEventListener('click', () => { show(+b.dataset.slide); stop(); start(); }));
+            slides.addEventListener('touchstart', touchStartHandler, { passive: true });
+            let startX, currentX;
+            function touchStartHandler(e) {
+                startX = e.touches[0].clientX;
+                const onMove = (ev) => currentX = ev.touches[0].clientX;
+                const onEnd = () => {
+                    const dx = currentX - startX;
+                    if (dx > 40) show(idx - 1);
+                    else if (dx < -40) show(idx + 1);
+                    document.removeEventListener('touchmove', onMove);
+                    document.removeEventListener('touchend', onEnd);
+                };
+                document.addEventListener('touchmove', onMove, { passive: true });
+                document.addEventListener('touchend', onEnd, { once: true });
+            }
+            start();
+        })();
+
+        /* ================
+           Image skeleton handling
+           ================ */
+        function enableImageSkeletons() {
+            const thumbs = queryAll('.product-thumb img, .hero img, .gallery-main img');
+            thumbs.forEach(img => {
+                const skeleton = img.closest('.product-thumb') ? img.closest('.product-thumb').querySelector('.skeleton') : document.getElementById('gallerySkeleton');
+                if (!skeleton) return;
+                if (img.complete) skeleton.style.display = 'none';
+                img.addEventListener('load', () => { skeleton.style.display = 'none'; });
+                img.addEventListener('error', () => { skeleton.style.display = 'none'; img.style.opacity = 0.6; });
+            });
+        }
+
+        /* ================
+           Quick View Modal
+           ================ */
+        const quickModal = query('#quickModal'), qImg = query('#qImg'), qTitle = query('#qTitle'), qPrice = query('#qPrice'), qDesc = query('#qDesc');
+        function openQuick(id) {
+            const p = PRODUCTS.find(x => x.id === id);
+            if (!p) return;
+            qImg.src = p.image;
+            qImg.alt = p.name;
+            qTitle.textContent = p.name;
+            qPrice.textContent = rup(p.price);
+            qDesc.textContent = p.desc;
+            quickModal.classList.add('show');
+            quickModal.setAttribute('aria-hidden', 'false');
+        }
+        query('#closeQuick').addEventListener('click', () => { quickModal.classList.remove('show'); quickModal.setAttribute('aria-hidden', 'true'); });
+        query('#qAddCart').addEventListener('click', () => { const id = PRODUCTS.find(p => p.image === qImg.src).id; addToCart(id); quickModal.classList.remove('show'); });
+
+        /* ================
+           Product detail view
+           ================ */
+        function openProduct(id) {
+            const p = PRODUCTS.find(x => x.id === id);
+            if (!p) return;
+            state.currentProduct = p;
+            // switch views
+            query('#homeView').style.display = 'none';
+            query('#listingView').style.display = 'none';
+            query('#productView').style.display = 'block'; query('#productView').classList.add('active');
+            query('#checkoutView').style.display = 'none';
+            state.view = 'product';
+            // populate
+            query('#pd-title').textContent = p.name;
+            query('#galleryImg').src = p.image;
+            query('#galleryImg').alt = p.name;
+            query('#pd-price').textContent = rup(p.price);
+            query('#pd-total').textContent = rup(p.price);
+            enableImageSkeletons();
+            // attach add to cart
+        }
+
+        /* back to listing */
+        query('#backToListing').addEventListener('click', () => { goHomeListing(); });
+
+        function goHomeListing() {
+            query('#homeView').style.display = 'block';
+            query('#productView').style.display = 'none'; query('#productView').classList.remove('active');
+            query('#listingView').style.display = 'none';
+            state.view = 'home';
+        }
+
+        /* update product total when options change */
+        query('#sizeSelect').addEventListener('change', updatePDTotal);
+        query('#metalSelect').addEventListener('change', updatePDTotal);
+        function updatePDTotal() {
+            if (!state.currentProduct) return;
+            let base = state.currentProduct.price;
+            const metal = query('#metalSelect').value;
+            if (metal.includes('Platinum')) base += 5000;
+            if (metal.includes('18K')) base += 2000;
+            query('#pd-total').textContent = rup(base);
+        }
+
+        /* add to cart from product detail */
+        query('#addToCartPD').addEventListener('click', () => { if (!state.currentProduct) return addToCart(state.currentProduct.id); addToCart(state.currentProduct.id); });
+
+        /* ================
+           Cart functionality
+           ================ */
+        function addToCart(id) {
+            const product = PRODUCTS.find(p => p.id === id);
+            if (!product) return;
+            const existing = state.cart.find(i => i.id === id);
+            if (existing) existing.qty++;
+            else state.cart.push({ id: product.id, name: product.name, price: product.price, qty: 1, image: product.image });
+            renderCart();
+            openCart();
+        }
+        function removeFromCart(id) {
+            state.cart = state.cart.filter(i => i.id !== id);
+            renderCart();
+        }
+        function changeQty(id, delta) {
+            const item = state.cart.find(i => i.id === id);
+            if (!item) return;
+            item.qty += delta;
+            if (item.qty < 1) removeFromCart(id);
+            renderCart();
+        }
+        function renderCart() {
+            const container = query('#cartItems');
+            container.innerHTML = '';
+            if (state.cart.length === 0) {
+                container.innerHTML = '<div style="padding:16px;color:var(--muted)">Your cart is empty.</div>';
+            } else {
+                state.cart.forEach(it => {
+                    const el = document.createElement('div');
+                    el.className = 'cart-item';
+                    el.innerHTML = `
+        <img src="${it.image}" alt="${it.name}" style="width:64px;height:64px;border-radius:8px;object-fit:cover"/>
+        <div style="flex:1">
+          <div style="font-weight:700;">${it.name}</div>
+          <div style="color:var(--muted);font-size:13px">${rup(it.price)}</div>
+          <div class="qty-controls" style="margin-top:6px;">
+            <button class="icon-btn" data-action="dec" aria-label="Decrease">-</button>
+            <div style="min-width:28px;text-align:center">${it.qty}</div>
+            <button class="icon-btn" data-action="inc" aria-label="Increase">+</button>
+            <button class="icon-btn" data-action="remove" aria-label="Remove" style="margin-left:8px">🗑</button>
+          </div>
+        </div>
+      `;
+                    el.querySelector('[data-action="inc"]').addEventListener('click', () => changeQty(it.id, 1));
+                    el.querySelector('[data-action="dec"]').addEventListener('click', () => changeQty(it.id, -1));
+                    el.querySelector('[data-action="remove"]').addEventListener('click', () => removeFromCart(it.id));
+                    container.appendChild(el);
+                });
+            }
+            // totals
+            const subtotal = state.cart.reduce((s, it) => s + it.price * it.qty, 0);
+            const taxes = Math.round(subtotal * 0.05);
+            const delivery = subtotal > 3000 || subtotal === 0 ? 0 : 99;
+            query('#subtotal').textContent = rup(subtotal);
+            query('#taxes').textContent = rup(taxes);
+            query('#deliveryCharge').textContent = standby = rup(delivery);
+            query('#cartTotal').textContent = rup(subtotal + taxes + delivery);
+            // update header cart count tooltip
+            query('#cartBtn').title = `Cart (${state.cart.reduce((s, i) => s + i.qty, 0)})`;
+            query('#cartBtn').setAttribute('aria-label', `Open cart, ${state.cart.reduce((s, i) => s + i.qty, 0)} items`);
+            // also update checkout total
+            query('#checkoutTotal').textContent = rup(subtotal + taxes + delivery);
+        }
+
+        /* open/close cart drawers */
+        function openCart() { query('#cartDrawer').classList.add('open'); query('#cartDrawer').setAttribute('aria-hidden', 'false'); }
+        function closeCart() { query('#cartDrawer').classList.remove('open'); query('#cartDrawer').setAttribute('aria-hidden', 'true'); }
+        query('#cartBtn').addEventListener('click', openCart);
+        query('#closeCart').addEventListener('click', closeCart);
+
+        /* ================
+           Checkout flow
+           ================ */
+        query('#checkoutBtn').addEventListener('click', () => { closeCart(); showCheckout(); });
+        function showCheckout() {
+            query('#homeView').style.display = 'none';
+            query('#listingView').style.display = 'none';
+            query('#productView').style.display = 'none';
+            query('#checkoutView').style.display = 'block';
+            state.view = 'checkout';
+            enableImageSkeletons();
+        }
+
+        /* place order (dummy) */
+        query('#placeOrderBtn').addEventListener('click', () => {
+            alert('Order placed (demo). Thank you!');
+            state.cart = [];
+            renderCart();
+            query('#checkoutView').style.display = 'none';
+            query('#homeView').style.display = 'block';
+        });
+
+        /* ================
+           Filters Drawer
+           ================ */
+        query('#filterBtn')?.addEventListener('click', () => { query('#filterDrawer').classList.add('open'); query('#filterDrawer').setAttribute('aria-hidden', 'false'); });
+        query('#applyFilters').addEventListener('click', () => {
+            // collect filters
+            const cat = query('#fCategory').value;
+            const price = +query('#fPrice').value;
+            const metals = queryAll('.metalFilter:checked').map(cb => cb.value);
+            state.filters.category = cat;
+            state.filters.maxPrice = price;
+            state.filters.metals = metals;
+            applyFilters();
+            query('#filterDrawer').classList.remove('open'); query('#filterDrawer').setAttribute('aria-hidden', 'true');
+            // show listing
+            query('#homeView').style.display = 'none';
+            query('#listingView').style.display = 'block';
+        });
+        query('#clearFilters').addEventListener('click', () => {
+            query('#fCategory').value = '';
+            query('#fPrice').value = 200000; query('#fPriceVal').textContent = 200000;
+            queryAll('.metalFilter').forEach(cb => cb.checked = false);
+        });
+        query('#fPrice').addEventListener('input', (e) => { query('#fPriceVal').textContent = e.target.value; });
+
+        /* ================
+           Listing view controls
+           ================ */
+        query('#viewAllBtn')?.addEventListener('click', (e) => { e.preventDefault(); query('#homeView').style.display = 'none'; query('#listingView').style.display = 'block'; populateListing(); });
+
+        /* category click opens listing filtered */
+        queryAll('.category').forEach(el => {
+            el.addEventListener('click', () => {
+                const cat = el.dataset.cat;
+                state.filters.category = cat;
+                state.filters.maxPrice = 200000;
+                state.filters.metals = [];
+                query('#homeView').style.display = 'none';
+                query('#listingView').style.display = 'block';
+                query('#fCategory').value = cat;
+                applyFilters();
+            });
+        });
+
+        /* ================
+           Quick view delegates and add-cart delegates
+           ================ */
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.quick-view')) {
+                const id = e.target.closest('.quick-view').dataset.id;
+                openQuick(id);
+            }
+            if (e.target.closest('.add-cart')) {
+                const id = e.target.closest('.add-cart').dataset.id;
+                addToCart(id);
+            }
+        });
+
+        /* ================
+           Account modal
+           ================ */
+        query('#accountBtn').addEventListener('click', () => { query('#accountModal').classList.add('show'); query('#accountModal').setAttribute('aria-hidden', 'false'); });
+        query('#accCancel').addEventListener('click', () => { query('#accountModal').classList.remove('show'); query('#accountModal').setAttribute('aria-hidden', 'true'); });
+        query('#accSubmit').addEventListener('click', () => { alert('Demo: logged in (not real).'); query('#accountModal').classList.remove('show'); });
+
+        /* ================
+           Quick nav buttons
+           ================ */
+        query('#homeBtn').addEventListener('click', () => { query('#homeView').style.display = 'block'; query('#listingView').style.display = 'none'; query('#productView').style.display = 'none'; });
+        query('#bagNav').addEventListener('click', openCart);
+        query('#collectionsNav').addEventListener('click', () => { query('#homeView').style.display = 'none'; query('#listingView').style.display = 'block'; populateListing(); });
+
+        /* Quick close backdrop for modals */
+        document.addEventListener('click', (e) => {
+            if (e.target === quickModal) { quickModal.classList.remove('show'); quickModal.setAttribute('aria-hidden', 'true'); }
+            const acc = query('#accountModal');
+            if (e.target === acc) { acc.classList.remove('show'); acc.setAttribute('aria-hidden', 'true'); }
+        });
+
+        /* initialize app */
+        (function init() {
+            populateFeatured();
+            populateListing();
+            enableImageSkeletons();
+            renderCart();
+            // attach gallery image load skeleton hide
+            query('#galleryImg').addEventListener('load', () => { query('#gallerySkeleton').style.display = 'none' });
+            // quick modal close clicking outside handled above
+            // default display
+            query('#homeView').style.display = 'block';
+        })();
+    </script>
+</body>
+
+</html>

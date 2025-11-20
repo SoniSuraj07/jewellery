@@ -1,0 +1,1225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aurora Jewels | Contemporary Demi-Fine Jewellery</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- 1. CSS VARIABLES & RESET --- */
+        :root {
+            --primary-dark: #2C2A4A;
+            /* Deep Navy/Purple */
+            --primary-gold: #D4AF37;
+            /* Rich Gold */
+            --secondary-gold: #F4E4C1;
+            /* Champagne Background */
+            --text-main: #333333;
+            --text-light: #777777;
+            --bg-white: #FFFFFF;
+            --bg-light: #F9F9F9;
+            --border-color: #E0E0E0;
+            --success: #27AE60;
+            --header-height: 60px;
+            --nav-height: 60px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-main);
+            background-color: var(--bg-light);
+            padding-top: var(--header-height);
+            padding-bottom: var(--nav-height);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+            border: none;
+            outline: none;
+        }
+
+        /* --- UTILITIES --- */
+        .container {
+            width: 92%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .flex {
+            display: flex;
+            align-items: center;
+        }
+
+        .flex-between {
+            justify-content: space-between;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .text-gold {
+            color: var(--primary-gold);
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 25px 0 15px;
+            position: relative;
+            padding-left: 10px;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--primary-gold);
+        }
+
+        /* --- SKELETON LOADER ANIMATION --- */
+        .skeleton {
+            background: #eee;
+            background: linear-gradient(110deg, #ececec 8%, #f5f5f5 18%, #ececec 33%);
+            background-size: 200% 100%;
+            animation: shine 1.5s linear infinite;
+        }
+
+        @keyframes shine {
+            to {
+                background-position-x: -200%;
+            }
+        }
+
+        /* --- 2. HEADER (Sticky) --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: var(--header-height);
+            background: var(--bg-white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 15px;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            color: var(--primary-dark);
+        }
+
+        .header-icons i {
+            font-size: 1.1rem;
+            margin-left: 15px;
+            color: var(--primary-dark);
+            cursor: pointer;
+            position: relative;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: var(--primary-gold);
+            color: white;
+            font-size: 0.6rem;
+            padding: 2px 5px;
+            border-radius: 50%;
+        }
+
+        /* --- 3. HERO & HOME --- */
+        .hero-banner {
+            width: 100%;
+            height: 350px;
+            position: relative;
+            background: url('https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?q=80&w=800&auto=format&fit=crop') center/cover no-repeat;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .hero-overlay {
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.6), transparent);
+            width: 100%;
+            padding: 20px;
+            color: white;
+        }
+
+        .hero-overlay h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        .hero-overlay p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .category-scroll {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            padding: 20px 15px;
+            scroll-behavior: smooth;
+        }
+
+        .category-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .cat-card {
+            min-width: 100px;
+            text-align: center;
+        }
+
+        .cat-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--secondary-gold);
+            margin: 0 auto 10px;
+            overflow: hidden;
+            border: 2px solid var(--primary-gold);
+        }
+
+        .cat-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cat-name {
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        /* Trust Strip */
+        .trust-strip {
+            background: var(--primary-dark);
+            color: var(--secondary-gold);
+            padding: 10px 0;
+            font-size: 0.75rem;
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* --- 4. PRODUCT LISTING (Shared Styles) --- */
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+            position: relative;
+            transition: transform 0.2s;
+        }
+
+        .product-card:active {
+            transform: scale(0.98);
+        }
+
+        .p-img-container {
+            position: relative;
+            padding-top: 100%;
+            /* 1:1 Aspect Ratio */
+            background: #f0f0f0;
+        }
+
+        .p-img-container img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .wishlist-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ccc;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .wishlist-btn.active {
+            color: red;
+        }
+
+        .p-details {
+            padding: 10px;
+        }
+
+        .p-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .p-price {
+            font-size: 0.95rem;
+            color: var(--primary-dark);
+            font-weight: 700;
+        }
+
+        .add-btn-sm {
+            width: 100%;
+            background: transparent;
+            border: 1px solid var(--primary-dark);
+            color: var(--primary-dark);
+            padding: 8px;
+            margin-top: 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Filter Drawer */
+        .filter-drawer {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 80%;
+            height: 100%;
+            background: white;
+            z-index: 2000;
+            transition: 0.3s ease;
+            box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .filter-drawer.open {
+            right: 0;
+        }
+
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .filter-group {
+            margin-bottom: 20px;
+        }
+
+        .filter-group h4 {
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .filter-opt {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* --- 5. PRODUCT DETAIL PAGE (PDP) --- */
+        .pdp-gallery {
+            width: 100%;
+            height: 375px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .pdp-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .pdp-info {
+            padding: 20px;
+            background: white;
+            border-radius: 20px 20px 0 0;
+            margin-top: -20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .badge-instock {
+            background: #E8F5E9;
+            color: #2E7D32;
+            font-size: 0.7rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .pdp-title {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .price-breakdown {
+            background: var(--bg-light);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-size: 0.85rem;
+        }
+
+        .pb-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            color: var(--text-light);
+        }
+
+        .pb-total {
+            border-top: 1px solid #ddd;
+            margin-top: 8px;
+            padding-top: 8px;
+            font-weight: 700;
+            color: var(--primary-dark);
+            font-size: 1rem;
+        }
+
+        .options-grid {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .opt-btn {
+            border: 1px solid #ddd;
+            padding: 8px 15px;
+            border-radius: 4px;
+            background: white;
+        }
+
+        .opt-btn.selected {
+            border-color: var(--primary-gold);
+            background: var(--secondary-gold);
+            color: var(--primary-dark);
+        }
+
+        .accordion {
+            border-top: 1px solid #eee;
+            margin-top: 20px;
+        }
+
+        .acc-item {
+            border-bottom: 1px solid #eee;
+        }
+
+        .acc-header {
+            padding: 15px 0;
+            display: flex;
+            justify-content: space-between;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .acc-body {
+            display: none;
+            padding-bottom: 15px;
+            font-size: 0.9rem;
+            color: var(--text-light);
+            line-height: 1.5;
+        }
+
+        /* Sticky CTA */
+        .pdp-cta {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            padding: 15px;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 900;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .btn-primary {
+            background: var(--primary-dark);
+            color: white;
+            width: 100%;
+            padding: 14px;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- 6. CART & CHECKOUT --- */
+        .cart-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            display: none;
+        }
+
+        .cart-sidebar {
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 85%;
+            max-width: 400px;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+            }
+
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        .cart-header {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+        }
+
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .cart-img {
+            width: 70px;
+            height: 70px;
+            border-radius: 4px;
+            background: #eee;
+            object-fit: cover;
+        }
+
+        .cart-info h4 {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .qty-ctrl {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid #ddd;
+            width: fit-content;
+            padding: 2px 8px;
+            border-radius: 4px;
+            margin-top: 5px;
+        }
+
+        .cart-footer {
+            padding: 20px;
+            border-top: 1px solid #eee;
+            background: var(--bg-light);
+        }
+
+        .cart-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+        }
+
+        .total-row {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-top: 15px;
+            color: var(--primary-dark);
+        }
+
+        /* Checkout Form (Simple) */
+        .checkout-form input,
+        .checkout-form select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+        }
+
+        .secure-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 10px;
+            color: #555;
+            font-size: 0.8rem;
+        }
+
+        /* --- 7. FOOTER --- */
+        footer {
+            background: var(--primary-dark);
+            color: white;
+            padding: 40px 20px 80px;
+            font-size: 0.9rem;
+        }
+
+        .footer-story {
+            margin-bottom: 25px;
+            opacity: 0.8;
+            line-height: 1.6;
+        }
+
+        .footer-links {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .footer-links h4 {
+            margin-bottom: 15px;
+            color: var(--primary-gold);
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+            font-size: 0.85rem;
+            opacity: 0.8;
+        }
+
+        /* --- 8. MOBILE NAV --- */
+        .mobile-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: var(--nav-height);
+            background: white;
+            border-top: 1px solid #eee;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            z-index: 950;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.7rem;
+            color: var(--text-light);
+            gap: 4px;
+        }
+
+        .nav-item i {
+            font-size: 1.2rem;
+        }
+
+        .nav-item.active {
+            color: var(--primary-dark);
+            font-weight: 600;
+        }
+
+        /* Desktop responsiveness */
+        @media (min-width: 768px) {
+            .grid-2 {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .pdp-container {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 40px;
+            }
+
+            .pdp-gallery {
+                height: 500px;
+                border-radius: 8px;
+            }
+
+            .pdp-info {
+                margin-top: 0;
+                border-radius: 8px;
+            }
+
+            .pdp-cta {
+                position: static;
+                box-shadow: none;
+                padding: 0;
+                margin-top: 20px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .grid-2 {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .container {
+                max-width: 1200px;
+            }
+        }
+
+        /* Modal */
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 3000;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="flex">
+            <i class="fa-solid fa-bars" style="font-size: 1.2rem; margin-right: 15px;"
+                onclick="toggleDrawer('filter-drawer')"></i>
+            <div class="logo" onclick="showPage('home')">AURORA JEWELS</div>
+        </div>
+        <div class="header-icons flex">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <i class="fa-regular fa-heart"></i>
+            <div style="position: relative;" onclick="toggleCart(true)">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <span class="cart-badge" id="cart-count">0</span>
+            </div>
+        </div>
+    </header>
+
+    <main id="main-content">
+        <section id="page-home">
+            <div class="hero-banner">
+                <div class="hero-overlay">
+                    <h1>Everyday Elegance</h1>
+                    <p>Demi-fine jewellery for the modern muse.</p>
+                </div>
+            </div>
+
+            <div class="trust-strip">
+                <div class="trust-item"><i class="fa-solid fa-certificate"></i> Certified</div>
+                <div class="trust-item"><i class="fa-solid fa-truck-fast"></i> Free Shipping</div>
+                <div class="trust-item"><i class="fa-solid fa-shield-halved"></i> Secure</div>
+            </div>
+
+            <div class="container">
+                <h3 class="section-title">Shop by Category</h3>
+                <div class="category-scroll">
+                    <div class="cat-card" onclick="showPage('plp', 'Rings')">
+                        <div class="cat-img"><img src="https://via.placeholder.com/80/D4AF37/FFFFFF?text=Rings"
+                                alt="Rings"></div>
+                        <div class="cat-name">Rings</div>
+                    </div>
+                    <div class="cat-card" onclick="showPage('plp', 'Necklaces')">
+                        <div class="cat-img"><img src="https://via.placeholder.com/80/D4AF37/FFFFFF?text=Necklace"
+                                alt="Necklaces"></div>
+                        <div class="cat-name">Necklaces</div>
+                    </div>
+                    <div class="cat-card" onclick="showPage('plp', 'Earrings')">
+                        <div class="cat-img"><img src="https://via.placeholder.com/80/D4AF37/FFFFFF?text=Earrings"
+                                alt="Earrings"></div>
+                        <div class="cat-name">Earrings</div>
+                    </div>
+                    <div class="cat-card" onclick="showPage('plp', 'Bridal')">
+                        <div class="cat-img"><img src="https://via.placeholder.com/80/D4AF37/FFFFFF?text=Bridal"
+                                alt="Bridal"></div>
+                        <div class="cat-name">Bridal</div>
+                    </div>
+                    <div class="cat-card" onclick="showPage('plp', 'Mens')">
+                        <div class="cat-img"><img src="https://via.placeholder.com/80/D4AF37/FFFFFF?text=Men" alt="Men">
+                        </div>
+                        <div class="cat-name">Men's</div>
+                    </div>
+                </div>
+
+                <h3 class="section-title">Featured Collection</h3>
+                <div class="grid-2" id="featured-grid">
+                </div>
+
+                <div
+                    style="margin-top: 30px; background: #F4E4C1; padding: 20px; border-radius: 8px; text-align: center;">
+                    <h3 style="color: var(--primary-dark); margin-bottom: 10px;">Aurora Bridal</h3>
+                    <p style="font-size: 0.9rem; margin-bottom: 15px;">Celebrate love with our conflict-free solitaires.
+                    </p>
+                    <button class="btn-primary" style="width: auto; padding: 10px 30px;"
+                        onclick="showPage('plp', 'Bridal')">Explore Bridal</button>
+                </div>
+            </div>
+        </section>
+
+        <section id="page-plp" class="hidden container">
+            <div class="flex-between" style="margin: 20px 0;">
+                <h2 id="plp-title">All Jewellery</h2>
+                <button onclick="toggleDrawer('filter-drawer')"
+                    style="background: white; border: 1px solid #ddd; padding: 5px 10px; border-radius: 4px; display: flex; align-items: center; gap: 5px;">
+                    <i class="fa-solid fa-sliders"></i> Filter
+                </button>
+            </div>
+            <div class="grid-2" id="plp-grid">
+            </div>
+        </section>
+
+        <section id="page-pdp" class="hidden">
+            <div class="container pdp-container">
+                <div class="pdp-gallery">
+                    <img id="pdp-image" src="" alt="Product" class="pdp-img skeleton">
+                    <div class="wishlist-btn" style="top: 20px; right: 20px;"><i class="fa-regular fa-heart"></i></div>
+                </div>
+
+                <div class="pdp-info">
+                    <div class="badge-instock"><i class="fa-solid fa-check"></i> In Stock</div>
+                    <h1 class="pdp-title" id="pdp-name">Product Name</h1>
+                    <div class="pdp-price" style="font-size: 1.4rem;" id="pdp-price">₹0</div>
+                    <div style="color: #f39c12; font-size: 0.8rem; margin-top: 5px;">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                            class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i
+                            class="fa-solid fa-star-half-stroke"></i> (42 Reviews)
+                    </div>
+
+                    <div class="price-breakdown">
+                        <div class="pb-row"><span>Base Price</span> <span id="pb-base">₹0</span></div>
+                        <div class="pb-row"><span>Making Charges</span> <span id="pb-making">₹0</span></div>
+                        <div class="pb-row"><span>GST (3%)</span> <span id="pb-tax">₹0</span></div>
+                        <div class="pb-row pb-total flex-between"><span>Grand Total</span> <span id="pb-total">₹0</span>
+                        </div>
+                    </div>
+
+                    <div>
+                        <span style="font-weight: 600; font-size: 0.9rem;">Select Metal:</span>
+                        <div class="options-grid">
+                            <button class="opt-btn selected">18KT Gold</button>
+                            <button class="opt-btn">14KT Gold</button>
+                            <button class="opt-btn">Rose Gold</button>
+                        </div>
+                    </div>
+
+                    <div class="accordion">
+                        <div class="acc-item">
+                            <div class="acc-header" onclick="toggleAcc(this)">Product Details <i
+                                    class="fa-solid fa-chevron-down"></i></div>
+                            <div class="acc-body">Handcrafted with precision. BIS Hallmarked gold. Genuine gemstones
+                                certified by SGL/IGI. Perfect for daily wear.</div>
+                        </div>
+                        <div class="acc-item">
+                            <div class="acc-header" onclick="toggleAcc(this)">Shipping & Returns <i
+                                    class="fa-solid fa-chevron-down"></i></div>
+                            <div class="acc-body">Free insured shipping across India. 15-day no-questions-asked return
+                                policy. Lifetime exchange available at 80% value.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pdp-cta">
+                <div style="flex: 1;">
+                    <div style="font-size: 0.8rem; color: #777;">Total</div>
+                    <div style="font-weight: 700; color: var(--primary-dark);" id="sticky-price">₹0</div>
+                </div>
+                <button class="btn-primary" style="flex: 2;" onclick="addToCartFromPDP()">Add to Cart</button>
+            </div>
+        </section>
+
+        <section id="page-checkout" class="hidden container">
+            <h2 class="section-title">Secure Checkout</h2>
+            <div class="checkout-form">
+                <input type="text" placeholder="Full Name" value="Jane Doe">
+                <input type="tel" placeholder="Mobile Number">
+                <input type="text" placeholder="Street Address">
+                <div class="flex" style="gap:10px;">
+                    <input type="text" placeholder="City">
+                    <input type="text" placeholder="Pincode">
+                </div>
+
+                <h4 style="margin: 20px 0 10px;">Payment Method</h4>
+                <div
+                    style="border: 1px solid var(--primary-gold); background: var(--secondary-gold); padding: 15px; border-radius: 4px; margin-bottom: 10px;">
+                    <i class="fa-solid fa-credit-card"></i> Credit/Debit Card
+                </div>
+                <div style="border: 1px solid #ddd; padding: 15px; border-radius: 4px; opacity: 0.6;">
+                    <i class="fa-solid fa-wallet"></i> UPI / Netbanking
+                </div>
+
+                <div class="price-breakdown" style="margin-top: 20px;">
+                    <div class="pb-row pb-total flex-between"><span>To Pay</span> <span id="checkout-total">₹0</span>
+                    </div>
+                </div>
+
+                <button class="btn-primary" style="margin-top: 20px;"
+                    onclick="alert('Order Placed Successfully! (Demo)')">Pay Securely</button>
+
+                <div class="secure-badge">
+                    <i class="fa-brands fa-cc-visa"></i> <i class="fa-brands fa-cc-mastercard"></i> SSL Encrypted
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="logo" style="color: var(--primary-gold); margin-bottom: 15px;">AURORA JEWELS</div>
+            <p class="footer-story">Founded in 1995, Aurora Jewels blends heritage with innovation, creating artisan
+                pieces for every occasion. Certified, ethical, and trusted by thousands for our demi-fine craftsmanship.
+            </p>
+
+            <div class="footer-links">
+                <ul>
+                    <h4>About</h4>
+                    <li>Our Story</li>
+                    <li>Contact Us</li>
+                    <li>Careers</li>
+                </ul>
+                <ul>
+                    <h4>Policies</h4>
+                    <li>Return Policy</li>
+                    <li>Privacy Policy</li>
+                    <li>Terms of Service</li>
+                </ul>
+            </div>
+            <div style="margin-top: 30px; text-align: center; opacity: 0.5; font-size: 0.7rem;">
+                &copy; 2023 Aurora Jewels. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <nav class="mobile-nav">
+        <div class="nav-item active" onclick="showPage('home')">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </div>
+        <div class="nav-item" onclick="showPage('plp', 'All')">
+            <i class="fa-solid fa-gem"></i>
+            <span>Shop</span>
+        </div>
+        <div class="nav-item" onclick="toggleModal('login-modal')">
+            <i class="fa-regular fa-user"></i>
+            <span>Account</span>
+        </div>
+    </nav>
+
+    <aside id="filter-drawer" class="filter-drawer">
+        <div class="filter-header">
+            <h3>Filters</h3>
+            <i class="fa-solid fa-xmark" onclick="toggleDrawer('filter-drawer')" style="font-size: 1.5rem;"></i>
+        </div>
+        <div class="filter-group">
+            <h4>Price</h4>
+            <div class="filter-opt"><input type="checkbox"> Under ₹10,000</div>
+            <div class="filter-opt"><input type="checkbox"> ₹10,000 - ₹30,000</div>
+            <div class="filter-opt"><input type="checkbox"> Above ₹30,000</div>
+        </div>
+        <div class="filter-group">
+            <h4>Metal</h4>
+            <div class="filter-opt"><input type="checkbox"> Yellow Gold</div>
+            <div class="filter-opt"><input type="checkbox"> Rose Gold</div>
+            <div class="filter-opt"><input type="checkbox"> Platinum</div>
+        </div>
+        <button class="btn-primary" onclick="toggleDrawer('filter-drawer')">Apply Filters</button>
+    </aside>
+
+    <div id="cart-overlay" class="cart-overlay" onclick="if(event.target===this) toggleCart(false)">
+        <aside class="cart-sidebar">
+            <div class="cart-header">
+                <span>Your Cart (<span id="cart-drawer-count">0</span>)</span>
+                <i class="fa-solid fa-xmark" onclick="toggleCart(false)"></i>
+            </div>
+            <div class="cart-items" id="cart-items-container">
+                <p style="text-align: center; margin-top: 50px; color: #999;">Your cart is empty.</p>
+            </div>
+            <div class="cart-footer">
+                <div class="cart-row"><span>Subtotal</span> <span id="cart-subtotal">₹0</span></div>
+                <div class="cart-row"><span>Delivery</span> <span class="text-gold">FREE</span></div>
+                <div class="cart-row total-row"><span>Total</span> <span id="cart-total">₹0</span></div>
+                <button class="btn-primary" style="margin-top: 15px;" onclick="goToCheckout()">Proceed to
+                    Checkout</button>
+            </div>
+        </aside>
+    </div>
+
+    <div id="login-modal" class="modal" onclick="if(event.target===this) toggleModal('login-modal')">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 15px;">Welcome Back</h2>
+            <p style="margin-bottom: 20px; font-size: 0.9rem; color: #777;">Enter your mobile number to login/signup</p>
+            <input type="tel" placeholder="+91 XXXXX XXXXX"
+                style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 15px;">
+            <button class="btn-primary" onclick="toggleModal('login-modal')">Get OTP</button>
+            <p style="margin-top: 15px; font-size: 0.8rem; text-decoration: underline; cursor: pointer;"
+                onclick="toggleModal('login-modal')">Close</p>
+        </div>
+    </div>
+
+    <script>
+        /* --- DATA --- */
+        const products = [
+            { id: 1, name: "Diamond Radiance Ring", cat: "Rings", price: 15999, img: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=400&q=80" },
+            { id: 2, name: "Demi-Fine Gold Chain", cat: "Necklaces", price: 8499, img: "https://images.unsplash.com/photo-1599643478518-17488fbbcd75?auto=format&fit=crop&w=400&q=80" },
+            { id: 3, name: "Solitaire Studs", cat: "Earrings", price: 12500, img: "https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=400&q=80" },
+            { id: 4, name: "Platinum Men's Band", cat: "Mens", price: 25000, img: "https://images.unsplash.com/photo-1617038224531-16d9d291b8d3?auto=format&fit=crop&w=400&q=80" },
+            { id: 5, name: "Bridal Eternity Set", cat: "Bridal", price: 45999, img: "https://images.unsplash.com/photo-1603561289423-68f5d6630481?auto=format&fit=crop&w=400&q=80" },
+            { id: 6, name: "Rose Gold Drop", cat: "Earrings", price: 6500, img: "https://images.unsplash.com/photo-1630019852942-f89202989a51?auto=format&fit=crop&w=400&q=80" }
+        ];
+
+        let cart = [];
+        let currentProduct = null;
+
+        /* --- INITIALIZATION --- */
+        document.addEventListener('DOMContentLoaded', () => {
+            renderGrid(products, 'featured-grid', 4); // Home
+            renderGrid(products, 'plp-grid', 6);      // PLP
+        });
+
+        /* --- NAVIGATION --- */
+        function showPage(pageId, category = null) {
+            // Hide all pages
+            document.querySelectorAll('main > section').forEach(sec => sec.classList.add('hidden'));
+            // Show specific page
+            document.getElementById('page-' + pageId).classList.remove('hidden');
+            // Scroll to top
+            window.scrollTo(0, 0);
+
+            // Logic specific to PLP
+            if (pageId === 'plp') {
+                document.getElementById('plp-title').innerText = category ? `${category} Collection` : "All Jewellery";
+                // In a real app, we would filter the grid here
+            }
+        }
+
+        function toggleDrawer(id) {
+            const el = document.getElementById(id);
+            if (el.classList.contains('open')) el.classList.remove('open');
+            else el.classList.add('open');
+        }
+
+        function toggleModal(id) {
+            const el = document.getElementById(id);
+            el.style.display = el.style.display === 'flex' ? 'none' : 'flex';
+        }
+
+        function toggleCart(show) {
+            const el = document.getElementById('cart-overlay');
+            el.style.display = show ? 'block' : 'none';
+            if (show) renderCart();
+        }
+
+        /* --- PRODUCT RENDERING --- */
+        function renderGrid(data, containerId, limit) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            data.slice(0, limit).forEach(p => {
+                container.innerHTML += `
+                    <div class="product-card" onclick="openPDP(${p.id})">
+                        <div class="p-img-container skeleton">
+                            <img src="${p.img}" loading="lazy" onload="this.parentElement.classList.remove('skeleton')">
+                            <div class="wishlist-btn"><i class="fa-regular fa-heart"></i></div>
+                        </div>
+                        <div class="p-details">
+                            <div class="p-name">${p.name}</div>
+                            <div class="p-price">₹${p.price.toLocaleString()}</div>
+                            <button class="add-btn-sm">Quick View</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function openPDP(id) {
+            currentProduct = products.find(p => p.id === id);
+            if (!currentProduct) return;
+
+            // Populate Data
+            document.getElementById('pdp-image').src = currentProduct.img;
+            document.getElementById('pdp-name').innerText = currentProduct.name;
+            document.getElementById('pdp-price').innerText = `₹${currentProduct.price.toLocaleString()}`;
+
+            // Calculate Breakdown
+            const base = Math.round(currentProduct.price * 0.85);
+            const making = Math.round(currentProduct.price * 0.12);
+            const tax = currentProduct.price - base - making;
+
+            document.getElementById('pb-base').innerText = `₹${base.toLocaleString()}`;
+            document.getElementById('pb-making').innerText = `₹${making.toLocaleString()}`;
+            document.getElementById('pb-tax').innerText = `₹${tax.toLocaleString()}`;
+            document.getElementById('pb-total').innerText = `₹${currentProduct.price.toLocaleString()}`;
+            document.getElementById('sticky-price').innerText = `₹${currentProduct.price.toLocaleString()}`;
+
+            showPage('pdp');
+        }
+
+        function toggleAcc(header) {
+            const body = header.nextElementSibling;
+            const icon = header.querySelector('i');
+            if (body.style.display === "block") {
+                body.style.display = "none";
+                icon.classList.replace('fa-chevron-up', 'fa-chevron-down');
+            } else {
+                body.style.display = "block";
+                icon.classList.replace('fa-chevron-down', 'fa-chevron-up');
+            }
+        }
+
+        /* --- CART LOGIC --- */
+        function addToCartFromPDP() {
+            if (!currentProduct) return;
+            const existing = cart.find(item => item.id === currentProduct.id);
+            if (existing) {
+                existing.qty++;
+            } else {
+                cart.push({ ...currentProduct, qty: 1 });
+            }
+            updateCartCount();
+            toggleCart(true);
+        }
+
+        function updateCartCount() {
+            const totalQty = cart.reduce((acc, item) => acc + item.qty, 0);
+            document.getElementById('cart-count').innerText = totalQty;
+            document.getElementById('cart-drawer-count').innerText = totalQty;
+        }
+
+        function renderCart() {
+            const container = document.getElementById('cart-items-container');
+            if (cart.length === 0) {
+                container.innerHTML = '<p style="text-align: center; margin-top: 50px; color: #999;">Your cart is empty.</p>';
+                document.getElementById('cart-subtotal').innerText = '₹0';
+                document.getElementById('cart-total').innerText = '₹0';
+                return;
+            }
+
+            let html = '';
+            let total = 0;
+
+            cart.forEach(item => {
+                const itemTotal = item.price * item.qty;
+                total += itemTotal;
+                html += `
+                    <div class="cart-item">
+                        <img src="${item.img}" class="cart-img">
+                        <div class="cart-info">
+                            <h4>${item.name}</h4>
+                            <div class="text-gold">₹${item.price.toLocaleString()}</div>
+                            <div class="qty-ctrl">
+                                <i class="fa-solid fa-minus" onclick="changeQty(${item.id}, -1)" style="font-size: 0.7rem; cursor:pointer;"></i>
+                                <span style="font-size: 0.9rem; width: 15px; text-align:center;">${item.qty}</span>
+                                <i class="fa-solid fa-plus" onclick="changeQty(${item.id}, 1)" style="font-size: 0.7rem; cursor:pointer;"></i>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+            document.getElementById('cart-subtotal').innerText = `₹${total.toLocaleString()}`;
+            document.getElementById('cart-total').innerText = `₹${total.toLocaleString()}`;
+        }
+
+        function changeQty(id, delta) {
+            const idx = cart.findIndex(i => i.id === id);
+            if (idx === -1) return;
+
+            cart[idx].qty += delta;
+            if (cart[idx].qty <= 0) {
+                cart.splice(idx, 1);
+            }
+            updateCartCount();
+            renderCart();
+        }
+
+        function goToCheckout() {
+            if (cart.length === 0) return alert("Cart is empty");
+            const total = document.getElementById('cart-total').innerText;
+            document.getElementById('checkout-total').innerText = total;
+            toggleCart(false);
+            showPage('checkout');
+        }
+
+    </script>
+</body>
+
+</html>
